@@ -1,6 +1,4 @@
-# ORViT: Object-Region Video Transformers
-
-This is an official pytorch implementation of paper [Object-Region Video Transformers](https://arxiv.org/abs/2110.06915). In this repository, we provide the PyTorch code we used to train and test our proposed ORViT layer.
+# FOCUS: Framework for Object Centric Unsupervised Learning with Scalable Methods for Comprehensive Video Understanding
 
 If you find ORViT useful in your research, please use the following BibTeX entry for citation.
 
