@@ -1,0 +1,70 @@
+config:
+    project:
+      name: dinosaur-cholec
+    data:
+      type: cholec
+      path: /home/saurav/datasets/CholecT50
+      scale: [448, 256, 448, 256]
+      feat_h: 8
+      feat_w: 14
+    model:
+      arch: slate # steve
+      teacher_arch: 'r50'
+      enc_arch: 'r50'
+      ssl_type: 'dino'
+      use_ssl: true
+      use_dinosaur: True
+      num_iterations: 3 # 2 for steve
+      num_slots: 7
+      cnn_hidden_size: 64
+      slot_size: 32 #192 #? 
+      mlp_hidden_size: 1024 #192
+      num_slot_heads: 1 # SLATE specific argument 
+      num_predictor_blocks: 4
+      num_predictor_heads: 8
+      dropout: 0.0
+      image_size: [256, 448]
+      vis_size: [64, 112] # downscaled by 4
+      vocab_size: 4096
+      d_enc: 2048
+      d_model: 32
+      img_channels: 3
+      ep_len: 3
+      m: 0
+      decoder:
+        type: mlp # or vit
+        num_blocks: 8
+        num_heads: 4
+        d_final: 2048 #192
+        dropout: 0.1
+      out_h: 8   # the output height for recon
+      out_w: 14  # the output width for recon
+    train:
+      mode: 1
+      seed: 41
+      log_path: 'logs/'
+      log_interval: 2000
+      checkpoint_path: 'checkpoints'
+      loss_type: bce
+      split: ctp
+      fold: 1
+      batch_size: 16
+      num_workers: 4
+      lr:
+        dvae: !!float 3e-4
+        enc: !!float 1e-4
+        dec: !!float 4e-4
+        half_life: 100000
+        warmup_steps: 20000 # increased from 10k
+      clip: 1.0
+      epochs: 200
+      steps: 500000
+      patience: 35
+      tau:
+        start: 1.0
+        final: 0.1
+        steps: 30000
+      resume: 
+        apply: false
+      hard: True
+      use_dp: True

@@ -10,7 +10,22 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 import torch.nn.functional as F
 
+# for config based operations ..
+import yaml
+from easydict import EasyDict as edict
+
 _logger = logger = logging.get_logger(__name__)
+
+
+def merge_a_into_b(a, b):
+    for k,v in vars(a).items():
+        if k not in b:
+            b[k] = v
+
+def parse_config(config_file):
+    with open(config_file) as f:
+        config = edict(yaml.load(f, Loader=yaml.FullLoader))
+    return config
 
 
 def round_width(width, multiplier, min_width=1, divisor=1, verbose=False):

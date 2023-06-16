@@ -4,6 +4,7 @@
 from .build import MODEL_REGISTRY, build_model  # noqa
 from .custom_video_model_builder import *  # noqa
 from .video_model_builder import ResNet, SlowFast  # noqa
+from .STEVE.steve import STEVE
 
 try:
     from .ptv_model_builder import (

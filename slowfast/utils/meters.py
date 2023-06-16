@@ -1441,3 +1441,26 @@ def eval_extra_metrics(cfg, preds, extra_preds, labels, metadata):
 
     return loss_dict
 
+# generic metric tracker ..
+class MetricTracker(object):
+    """
+    Computes and stores the average and current value
+    """
+    def __init__(self):
+        self.reset()
+
+    def reset(self):
+        self.curr  = 0
+        self.avg   = 0
+        self.sum   = 0
+        self.count = 0
+        self.best_score = 0
+
+    def update(self, val, n=1.):
+        self.curr   = val
+        self.sum   += val
+        self.count += n
+        self.avg    = self.sum / self.count
+
+    def update_test(self, val):
+        self.best_score = val

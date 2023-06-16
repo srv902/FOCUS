@@ -8,6 +8,7 @@ from .imagenet import Imagenet  # noqa
 from .kinetics import Kinetics  # noqa
 from .ssv2 import Ssv2  # noqa
 from .epickitchens import Epickitchens  # noqa
+from .cholec80 import Cholec80
 
 
 try:

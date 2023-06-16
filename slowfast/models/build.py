@@ -34,7 +34,15 @@ def build_model(cfg, gpu_id=None):
 
     # Construct the model
     name = cfg.MODEL.MODEL_NAME
+    # print("name to call for >>> ", name)
+    # print(MODEL_REGISTRY)
+    # exit()
+
     model = MODEL_REGISTRY.get(name)(cfg)
+
+    # print("model param in the cfg >>> ")
+    # print(cfg.MODEL)
+    # exit()
 
     if getattr(cfg.MODEL, "LOAD_IN_PRETRAIN", "") != "":
         from .utils import load_pretrained
@@ -52,6 +60,8 @@ def build_model(cfg, gpu_id=None):
                         num_patches=(cfg.DATA.TRAIN_CROP_SIZE // cfg.MVIT.PATCH_STRIDE[-1]) * (cfg.DATA.TRAIN_CROP_SIZE // cfg.MVIT.PATCH_STRIDE[-2]),
                         # pretrained_model=cfg.MODEL.LOAD_IN_PRETRAIN,
                         )
+    else:
+        print("NO CHECKPOINT LOADED! CONTINUE FROM SCRATCH")
 
     if cfg.ORVIT.ENABLE and cfg.ORVIT.ZERO_INIT_ORVIT:
         from slowfast.utils import misc
@@ -71,4 +81,7 @@ def build_model(cfg, gpu_id=None):
         model = torch.nn.parallel.DistributedDataParallel(
             module=model, device_ids=[cur_device], output_device=cur_device,
         )
+
+    # print("I am good here so far!")
+    
     return model

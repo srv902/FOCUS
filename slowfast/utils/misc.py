@@ -197,7 +197,6 @@ def log_model_info(model, cfg, use_train_input=True):
     logger.info("nvidia-smi")
     os.system("nvidia-smi")
 
-
 def is_eval_epoch(cfg, cur_epoch, multigrid_schedule):
     """
     Determine if the model should be evaluated at the current epoch.

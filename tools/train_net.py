@@ -577,17 +577,21 @@ def train(cfg):
         cfg (CfgNode): configs. Details can be found in
             slowfast/config/defaults.py
     """
+    # print("Inside the train func >>>>>>>>>>>>>")
     # Set up environment.
     du.init_distributed_training(cfg)
     # Set random seed from configs.
     np.random.seed(cfg.RNG_SEED)
     torch.manual_seed(cfg.RNG_SEED)
 
+    # print("Fine here so far inside train func >>>> ")
+
     # Setup logging format.
     logging.setup_logging(cfg.OUTPUT_DIR)
 
     # Init multigrid.
     multigrid = None
+
     if cfg.MULTIGRID.LONG_CYCLE or cfg.MULTIGRID.SHORT_CYCLE:
         multigrid = MultigridSchedule()
         cfg = multigrid.init_multigrid(cfg)

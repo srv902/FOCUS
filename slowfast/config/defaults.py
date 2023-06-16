@@ -11,6 +11,58 @@ from . import custom_config
 # -----------------------------------------------------------------------------
 _C = CfgNode()
 
+
+# -----------------------------------------------------------------------------
+# STEVE options NOTE: Repeat for other modules
+# -----------------------------------------------------------------------------
+_C.STEVE = CfgNode()
+
+# 
+_C.STEVE.INIT_WEIGHTS = False # NOTE: why this is needed ?
+
+# Number of objects
+_C.STEVE.O = 5
+
+# STEVE in model
+_C.STEVE.ENABLE = False
+_C.STEVE.LAYERS = []
+_C.STEVE.ADD_LAYERS = []
+_C.STEVE.USE_MOTION_STREAM = True
+_C.STEVE.MOTION_STREAM_ATTN_TYPE = 'joint'
+
+
+# slot specific controls 
+_C.SLOTS = CfgNode()
+_C.SLOTS.SIZE = 32
+_C.SLOTS.NUM_SLOTS = 7 # num slots in use!
+_C.SLOTS.HEADS = 1
+_C.SLOTS.HARD = True
+_C.SLOTS.NUM_ITERS = 3
+_C.SLOTS.IMG_CHANNELS = 3
+_C.SLOTS.IMG_SIZE = 64 # [256, 448]
+_C.SLOTS.USE_SSL_FEAT = False
+_C.SLOTS.USE_PIXEL_RECON = False
+_C.SLOTS.SSL_TYPE = 'dino'
+_C.SLOTS.TEACHER = 'r50'
+_C.SLOTS.ARCH = 'steve' # steve or dinosaur
+_C.SLOTS.CNN_HID_SIZE = 64
+_C.SLOTS.MLP_HID_SIZE = 1024
+_C.SLOTS.NUM_PREDICTOR_HEADS = 8
+_C.SLOTS.NUM_PREDICTOR_BLOCKS = 4
+_C.SLOTS.DROPOUT = 0.0
+_C.SLOTS.VOCAB_SIZE = 4096
+_C.SLOTS.OUT_H = 8
+_C.SLOTS.OUT_W = 14 
+
+_C.SLOTS.DECODER = CfgNode()
+_C.SLOTS.DECODER.TYPE = 'mlp' # 'vit'
+_C.SLOTS.DECODER.NUM_BLOCKS = 8
+_C.SLOTS.DECODER.NUM_HEADS = 4
+_C.SLOTS.DECODER.DIM = 2048
+_C.SLOTS.DECODER.DROPOUT = 0.1
+
+
+
 # -----------------------------------------------------------------------------
 # ORVIT options
 # -----------------------------------------------------------------------------
@@ -71,11 +123,17 @@ _C.TRAIN = CfgNode()
 # If True Train the model, else skip training.
 _C.TRAIN.ENABLE = True
 
+# If slots, slots ar, slot vis or ar used for the method!
+_C.TRAIN.ARCH = 'ar'
+
 # Dataset.
 _C.TRAIN.DATASET = "kinetics"
 
 # Total mini-batch size.
 _C.TRAIN.BATCH_SIZE = 64
+
+# num workers .
+_C.TRAIN.NUM_WORKERS = 4
 
 # Evaluate model on test data every eval period epochs.
 _C.TRAIN.EVAL_PERIOD = 10
@@ -109,6 +167,12 @@ _C.TRAIN.MIXED_PRECISION = False
 
 
 _C.TRAIN.VAL_ONLY = False
+
+# LOG OPTIONS ..
+_C.TRAIN.LOG_PATH = ''
+_C.TRAIN.LOG_INTERVAL = 2000
+_C.TRAIN.CHECKPOINT_PATH = ''
+
 # ---------------------------------------------------------------------------- #
 # Augmentation options.
 # ---------------------------------------------------------------------------- #
@@ -519,7 +583,7 @@ _C.SLOWFAST.FUSION_KERNEL_SZ = 5
 _C.DATA = CfgNode()
 
 # The path to the data directory.
-_C.DATA.PATH_TO_DATA_DIR = ""
+_C.DATA.PATH_TO_DATA_DIR = ''
 
 # The separator used between path and label.
 _C.DATA.PATH_LABEL_SEPARATOR = " "
@@ -605,6 +669,36 @@ _C.DATA.ENSEMBLE_METHOD = "sum"
 _C.DATA.REVERSE_INPUT_CHANNEL = False
 
 
+# FOR CHOLEC SPECIFIC DATA..
+_C.DATA.SPLIT = 'ctp'
+_C.DATA.FOLD = 1
+_C.DATA.SCALE = [448, 256, 448, 256]
+_C.DATA.FEAT_H = 8
+_C.DATA.FEAT_W = 14
+_C.DATA.PATH = ''
+
+_C.CHOLEC = CfgNode()
+_C.CHOLEC.PATH = 'datasets/cholec80/labels'
+_C.CHOLEC.TRAIN_PKL = '1fps_100_0.pickle'
+_C.CHOLEC.VAL_PKL   = '1fps.pickle'
+_C.CHOLEC.TEST_PKL  = '1fps.pickle'
+
+# ---------------------------------
+# Slots based optims 
+# ---------------------------------
+_C.SLOTS_OPTIM = CfgNode()
+_C.SLOTS_OPTIM.DVAE = 3e-4
+_C.SLOTS_OPTIM.ENC = 1e-4
+_C.SLOTS_OPTIM.DEC = 4e-4
+_C.SLOTS_OPTIM.HALF_LIFE = 100000
+_C.SLOTS_OPTIM.WARMUP_STEPS = 20000
+_C.SLOTS_OPTIM.CLIP = 1.0
+_C.SLOTS_OPTIM.TAU_START = 1.0
+_C.SLOTS_OPTIM.TAU_FINAL = 0.1
+_C.SLOTS_OPTIM.TAU_STEPS = 30000
+_C.SLOTS_OPTIM.STEPS = 200000
+_C.SLOTS_OPTIM.STEP_INTERVAL = 5000
+
 # ---------------------------------------------------------------------------- #
 # Optimizer options
 # ---------------------------------------------------------------------------- #
@@ -682,7 +776,7 @@ _C.SOLVER.CLIP_GRAD_L2NORM = None
 # Number of GPUs to use (applies to both training and testing).
 _C.NUM_GPUS = 1
 
-_C.CUDA_VISIBLE_DEVICES = ''
+_C.CUDA_VISIBLE_DEVICES = '0' #''
 
 # Number of machine to use for the job.
 _C.NUM_SHARDS = 1

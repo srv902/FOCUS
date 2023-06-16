@@ -17,6 +17,7 @@ from slowfast.utils.parser import load_config, parse_args
 from demo_net import demo
 from test_net import test
 from train_net import train
+from slot_train_net import slot_train
 from visualization import visualize
 
 
@@ -26,14 +27,25 @@ def main():
     """
     args = parse_args()
     cfg = load_config(args)
+    # print("here I am fine >> ")
+
     cfg = assert_and_infer_cfg(cfg)
+    # print(cfg)
+    # print("<<<<<<<<<<<<<< After assert and infer >>> ")
+
+    # exit()
 
     if cfg.CUDA_VISIBLE_DEVICES:
         os.environ["CUDA_VISIBLE_DEVICES"] = cfg.CUDA_VISIBLE_DEVICES
 
     # Perform training.
     if cfg.TRAIN.ENABLE:
-        launch_job(cfg=cfg, init_method=args.init_method, func=train)
+        if cfg.TRAIN.ARCH == 'ar':
+            launch_job(cfg=cfg, init_method=args.init_method, func=train)
+        elif cfg.TRAIN.ARCH == 'slots':
+            launch_job(cfg=cfg, init_method=args.init_method, func=slot_train)
+        else:
+            pass
 
     # Perform multi-clip testing.
     if cfg.TEST.ENABLE:

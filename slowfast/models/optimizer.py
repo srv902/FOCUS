@@ -6,10 +6,43 @@
 import torch
 
 import slowfast.utils.lr_policy as lr_policy
-
 import slowfast.utils.logging as logging
-
 logger = logging.get_logger(__name__)
+
+
+def construct_optimizer_slot(model, cfg):
+    """
+    Construct optimizer for Slot based methods ..
+    """
+
+    optim_params = [
+        {'params': (x[1] for x in model.named_parameters() if 'dvae' in x[0]), 'lr': cfg.SLOTS_OPTIM.DVAE},
+        {'params': (x[1] for x in model.named_parameters() if 'steve_encoder' in x[0]), 'lr': 0.0},
+        {'params': (x[1] for x in model.named_parameters() if 'steve_decoder' in x[0]), 'lr': 0.0},
+    ]
+
+    # NOTE: check the optim and the lr used in the slot codebase
+
+    if cfg.SOLVER.OPTIMIZING_METHOD == "sgd":
+        return torch.optim.SGD(
+            optim_params,
+            lr=cfg.SOLVER.BASE_LR,
+            momentum=cfg.SOLVER.MOMENTUM,
+            weight_decay=cfg.SOLVER.WEIGHT_DECAY,
+            dampening=cfg.SOLVER.DAMPENING,
+            nesterov=cfg.SOLVER.NESTEROV,
+        )
+    elif cfg.SOLVER.OPTIMIZING_METHOD == "adam":
+        return torch.optim.Adam(
+            optim_params
+        )
+
+        #     return torch.optim.Adam(
+        #     optim_params,
+        #     lr=cfg.SOLVER.BASE_LR,
+        #     betas=(0.9, 0.999),
+        #     weight_decay=cfg.SOLVER.WEIGHT_DECAY,
+        # )
 
 
 def construct_optimizer(model, cfg):
@@ -175,3 +208,15 @@ def set_lr(optimizer, new_lr, log = False):
         if log: logger.info(f"Set lr {new_lr['lr']} for all paramters groups")
         for param_group in optimizer.param_groups:
             param_group["lr"] = new_lr['lr']
+
+
+def set_slot_lr(
+    optimizer,
+    cfg,
+    lr_decay_factor,
+    lr_warmup_factor_enc,
+    lr_warmup_factor_dec
+):
+    optimizer.param_groups[0]['lr'] = cfg.SLOTS_OPTIM.DVAE
+    optimizer.param_groups[1]['lr'] = lr_decay_factor * lr_warmup_factor_enc * cfg.SLOTS_OPTIM.ENC
+    optimizer.param_groups[2]['lr'] = lr_decay_factor * lr_warmup_factor_dec * cfg.SLOTS_OPTIM.DEC

@@ -69,7 +69,6 @@ def get_last_checkpoint(path_to_job):
     name = sorted(names)[-1]
     return os.path.join(d, name)
 
-
 def has_checkpoint(path_to_job):
     """
     Determines if the given directory contains a checkpoint.
@@ -526,7 +525,11 @@ def load_train_checkpoint(cfg, model, optimizer, scaler=None):
     """
     Loading checkpoint logic for training.
     """
+    # print("checkpoint path value >>> ", cfg.TRAIN.CHECKPOINT_FILE_PATH)
+    # t1 = cfg.TRAIN.CHECKPOINT_FILE_PATH
+    # print("type is >> ", type(t1))
     if cfg.TRAIN.AUTO_RESUME and has_checkpoint(cfg.OUTPUT_DIR):
+        print("here inside the first if")
         if cfg.TRAIN.VAL_ONLY and cfg.TEST.TEST_EPOCH_NUM > 0:
             n = cfg.TEST.TEST_EPOCH_NUM
             last_checkpoint = os.path.join(cfg.OUTPUT_DIR, 'checkpoints', f'checkpoint_epoch_{n:05}.pyth')
@@ -538,7 +541,8 @@ def load_train_checkpoint(cfg, model, optimizer, scaler=None):
             last_checkpoint, model, cfg.NUM_GPUS > 1, optimizer, scaler=scaler
         )
         start_epoch = checkpoint_epoch + 1
-    elif cfg.TRAIN.CHECKPOINT_FILE_PATH != "":
+    elif cfg.TRAIN.CHECKPOINT_FILE_PATH != None: # or cfg.TRAIN.CHECKPOINT_FILE_PATH != "": #NOTE: for some reason it shows None
+        # print("here inside the second if >>> ")
         logger.info("Load from given checkpoint file.")
         checkpoint_epoch = load_checkpoint(
             cfg.TRAIN.CHECKPOINT_FILE_PATH,
