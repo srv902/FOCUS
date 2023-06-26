@@ -51,15 +51,14 @@ def slot_train_epoch(
     data_size = len(train_loader)
     # convert to tqdm ..
     tqdm_loader = tqdm(train_loader, unit='batch')
-
-    for cur_iter, (inputs, labels, _vid_idx, meta) in enumerate(tqdm_loader):
+    
+    for cur_iter, (inputs, labels, _vid_idx, meta) in enumerate(train_loader):
         # Transfer the data to the current GPU device.
         if cfg.NUM_GPUS:
             inputs, labels, meta = misc.iter_to_cuda([inputs, labels, meta])
 
         # print("size of the input video frames >>> ", inputs.shape)
         # exit()
-
         # compute misc variables needed for slot training ..
         global_step = cur_epoch * data_size + cur_iter
 
@@ -132,6 +131,7 @@ def slot_train_epoch(
         # logs ..
         if writer is not None:
             tqdm_loader.set_postfix(MODE='TRAIN', EPOCH=cur_epoch, STEP=global_step, LOSS=f'{loss.item():.5f}', MSE=f'{mse.item():.5f}')
+            tqdm_loader.update()
             # NOTE: create dict as the writer is Tensorboard Writer not SummaryWriter
             _add = {"TRAIN/loss": loss.item()}
             _add.update({'TRAIN/cross_entropy':cross_entropy.item()})

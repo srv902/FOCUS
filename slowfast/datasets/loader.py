@@ -95,6 +95,7 @@ def construct_loader(cfg, split, is_precise_bn=False):
     if split in ["train"]:
         dataset_name = cfg.TRAIN.DATASET
         batch_size = int(cfg.TRAIN.BATCH_SIZE / max(1, cfg.NUM_GPUS))
+        print(batch_size, "BATCH SIZE")
         shuffle = True
         drop_last = True
     elif split in ["val"]:
@@ -110,7 +111,6 @@ def construct_loader(cfg, split, is_precise_bn=False):
 
     # Construct the dataset
     dataset = build_dataset(dataset_name, cfg, split)
-    
 
     if isinstance(dataset, torch.utils.data.IterableDataset):
         loader = torch.utils.data.DataLoader(

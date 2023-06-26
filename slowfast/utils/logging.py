@@ -53,6 +53,7 @@ def setup_logging(output_dir=None):
         _suppress_print()
 
     logger = logging.getLogger()
+    logging.getLogger('PIL').setLevel(logging.WARNING)  # IH hide PIL DEBUG warnings
     logger.setLevel(logging.DEBUG)
     logger.propagate = False
     plain_formatter = logging.Formatter(

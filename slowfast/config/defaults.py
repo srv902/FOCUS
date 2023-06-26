@@ -683,6 +683,20 @@ _C.CHOLEC.TRAIN_PKL = '1fps_100_0.pickle'
 _C.CHOLEC.VAL_PKL   = '1fps.pickle'
 _C.CHOLEC.TEST_PKL  = '1fps.pickle'
 
+# FOR MOVI-Tex SPECIFIC DATA..
+_C.DATA.SPLIT = 'ctp'
+_C.DATA.FOLD = 1
+_C.DATA.SCALE = [448, 256, 448, 256]
+_C.DATA.FEAT_H = 8
+_C.DATA.FEAT_W = 14
+_C.DATA.PATH = ''
+
+_C.MOVI = CfgNode()
+_C.MOVI.PATH = '/raid/MOVI_E_data'
+#_C.CHOLEC.TRAIN_PKL = '1fps_100_0.pickle'
+#_C.CHOLEC.VAL_PKL   = '1fps.pickle'
+#_C.CHOLEC.TEST_PKL  = '1fps.pickle'
+
 # ---------------------------------
 # Slots based optims 
 # ---------------------------------
