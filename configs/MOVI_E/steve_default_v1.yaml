@@ -9,7 +9,7 @@ SSV2:
   BOXES_FORMAT: 'detectron2'
 SLOTS: # slot specific controls 
   SIZE: 192
-  NUM_SLOTS: 3 # num slots in use!
+  NUM_SLOTS: 15 # num slots in use!
   HEADS: 1
   NUM_ITERS: 3
   IMG_CHANNELS: 3
@@ -39,7 +39,7 @@ TRAIN:
   ARCH: slots # ar the default method
   DATASET: Movi_E
   BATCH_SIZE: 2 # 48
-  NUM_WORKERS: 4 #NOTE: repeated below . remove this
+  NUM_WORKERS: 6 #NOTE: repeated below . remove this
   EVAL_PERIOD: 5
   CHECKPOINT_PERIOD: 1
   AUTO_RESUME: False
@@ -120,8 +120,8 @@ SLOTS_OPTIM:
   DVAE: !!float 3e-4
   ENC: !!float 1e-4
   DEC: !!float 4e-4
-  HALF_LIFE: 100000
-  WARMUP_STEPS: 20000
+  HALF_LIFE: 250000
+  WARMUP_STEPS: 30000
   CLIP: 1.0
   TAU_START: 1.0
   TAU_FINAL: 0.1
@@ -145,6 +145,6 @@ DATA_LOADER:
 NUM_GPUS: 1
 NUM_SHARDS: 1
 RNG_SEED: 0
-OUTPUT_DIR: .
+OUTPUT_DIR: "./MOVI_E_experiments"
 TENSORBOARD:
   ENABLE: True

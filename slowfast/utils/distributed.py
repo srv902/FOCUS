@@ -286,7 +286,7 @@ def init_distributed_training(cfg):
         if i == cfg.SHARD_ID:
             global _LOCAL_PROCESS_GROUP
             _LOCAL_PROCESS_GROUP = pg
-
+    
 
 def get_local_size() -> int:
     """

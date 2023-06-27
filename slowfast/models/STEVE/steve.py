@@ -249,8 +249,7 @@ class STEVE(nn.Module):
 
         # dvae recon
         dvae_recon = self.dvae.decoder(z_soft).reshape(B, T, C, H, W)               # B, T, C, H, W
-        dvae_mse = ((video - dvae_recon) ** 2).sum() / (B * T)                      # 1
-
+        dvae_mse = ((video - dvae_recon) ** 2).sum() / (B * T)     
         # savi
         # print("video flat >> ", video_flat.shape)
         emb = self.steve_encoder.cnn(video_flat)      # B * T, cnn_hidden_size, H, W
@@ -284,7 +283,6 @@ class STEVE(nn.Module):
         pred = self.steve_decoder.tf(z_emb[:, :-1], slots.flatten(end_dim=1))                               # B * T, H_enc * W_enc, d_model
         pred = self.steve_decoder.head(pred)                                                                # B * T, H_enc * W_enc, vocab_size
         cross_entropy = -(z_hard * torch.log_softmax(pred, dim=-1)).sum() / (B * T)                         # 1
-
         return (dvae_recon.clamp(0., 1.),
                 cross_entropy,
                 dvae_mse,

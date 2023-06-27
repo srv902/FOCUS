@@ -160,6 +160,7 @@ def slot_train_epoch(
     # end of one epoch ..
     with torch.no_grad():
         # gen_video = model.module.reconstruct_autoregressive(inputs[:8])
+        
         gen_video = (model.module if cfg.NUM_GPUS>1 else model).reconstruct_autoregressive(inputs[:8])
         frames = smisc.visualize(inputs, recon, gen_video, attns, cfg.SLOTS.NUM_SLOTS, N=8)
         # writer.add_video(f'TRAIN_recons2/epoch={epoch+1}', frames)

@@ -1,0 +1,392 @@
+Please update your PyTorchVideo to latest master
+Please update your PyTorchVideo to latest master
+[06/27 06:51:45][INFO] slot_train_net.py: 249: Train with config:
+[06/27 06:51:45][INFO] slot_train_net.py: 250: {'AUG': {'AA_TYPE': 'rand-m7-n4-mstd0.5-inc1',
+         'COLOR_JITTER': 0.0,
+         'DIFFERENT_AUG_PER_FRAME': True,
+         'ENABLE': True,
+         'INTERPOLATION': 'bicubic',
+         'NUM_SAMPLE': 1,
+         'RE_COUNT': 1,
+         'RE_MODE': 'pixel',
+         'RE_PROB': 0.0,
+         'RE_SPLIT': False},
+ 'AVA': {'ANNOTATION_DIR': '/home/gamir/DER-Roei/datasets/AVA/download_repo/data/ava/annotations',
+         'BGR': False,
+         'CENTER_CROP_TEST': True,
+         'DETECTION_SCORE_THRESH': 0.9,
+         'EXCLUSION_FILE': 'ava_val_excluded_timestamps_v2.2.csv',
+         'FRAME_DIR': '/home/gamir/DER-Roei/datasets/AVA/download_repo/data/ava/frames',
+         'FRAME_LIST_DIR': '/home/gamir/DER-Roei/datasets/AVA/download_repo/data/ava/frame_lists',
+         'FULL_TEST_ON_VAL': False,
+         'GROUNDTRUTH_FILE': 'ava_val_v2.2.csv',
+         'IMG_PROC_BACKEND': 'cv2',
+         'LABEL_MAP_FILE': 'ava_action_list_v2.2_for_activitynet_2019.pbtxt',
+         'TEST_FORCE_FLIP': False,
+         'TEST_LISTS': ['val.csv'],
+         'TEST_PREDICT_BOX_LISTS': ['ava_val_predicted_boxes.csv'],
+         'TRAIN_GT_BOX_LISTS': ['ava_train_v2.2.csv'],
+         'TRAIN_LISTS': ['train.csv'],
+         'TRAIN_PCA_JITTER_ONLY': True,
+         'TRAIN_PREDICT_BOX_LISTS': [],
+         'TRAIN_USE_COLOR_AUGMENTATION': False},
+ 'BENCHMARK': CfgNode({'NUM_EPOCHS': 5, 'LOG_PERIOD': 100, 'SHUFFLE': True}),
+ 'BN': {'NORM_TYPE': 'batchnorm',
+        'NUM_BATCHES_PRECISE': 200,
+        'NUM_SPLITS': 1,
+        'NUM_SYNC_DEVICES': 1,
+        'USE_PRECISE_STATS': False,
+        'WEIGHT_DECAY': 0.0},
+ 'CHOLEC': {'PATH': 'datasets/cholec80/labels',
+            'TEST_PKL': '1fps.pickle',
+            'TRAIN_PKL': '1fps_100_0.pickle',
+            'VAL_PKL': '1fps.pickle'},
+ 'CUDA_VISIBLE_DEVICES': '0',
+ 'DATA': {'DECODING_BACKEND': 'torchvision',
+          'ENSEMBLE_METHOD': 'sum',
+          'FEAT_H': 8,
+          'FEAT_W': 14,
+          'FOLD': 1,
+          'INPUT_CHANNEL_NUM': [3],
+          'INV_UNIFORM_SAMPLE': True,
+          'MEAN': [0.5, 0.5, 0.5],
+          'MULTI_LABEL': False,
+          'NUM_FRAMES': 8,
+          'PATH': '/raid/MOVI_E_dataset',
+          'PATH_LABEL_SEPARATOR': ' ',
+          'PATH_PREFIX': '/raid/MOVI_E_dataset',
+          'PATH_TO_DATA_DIR': '/raid/MOVI_E_dataset',
+          'PATH_TO_PRELOAD_IMDB': '',
+          'RANDOM_FLIP': False,
+          'REVERSE_INPUT_CHANNEL': True,
+          'SAMPLING_RATE': 1,
+          'SCALE': [448, 256, 448, 256],
+          'SPLIT': 'ctp',
+          'STD': [0.5, 0.5, 0.5],
+          'TARGET_FPS': 30,
+          'TEST_CROP_SIZE': 128,
+          'TRAIN_CROP_SIZE': 128,
+          'TRAIN_JITTER_ASPECT_RELATIVE': [0.75, 1.3333],
+          'TRAIN_JITTER_MOTION_SHIFT': False,
+          'TRAIN_JITTER_SCALES': [256, 320],
+          'TRAIN_JITTER_SCALES_RELATIVE': [0.08, 1.0],
+          'TRAIN_PCA_EIGVAL': [0.225, 0.224, 0.229],
+          'TRAIN_PCA_EIGVEC': [[-0.5675, 0.7192, 0.4009],
+                               [-0.5808, -0.0045, -0.814],
+                               [-0.5836, -0.6948, 0.4203]],
+          'USE_OFFSET_SAMPLING': True},
+ 'DATA_LOADER': {'ENABLE_MULTI_THREAD_DECODE': False,
+                 'NUM_WORKERS': 12,
+                 'PIN_MEMORY': True},
+ 'DEMO': {'BUFFER_SIZE': 0,
+          'CLIP_VIS_SIZE': 10,
+          'COMMON_CLASS_NAMES': ['watch (a person)',
+                                 'talk to (e.g., self, a person, a group)',
+                                 'listen to (a person)',
+                                 'touch (an object)',
+                                 'carry/hold (an object)',
+                                 'walk',
+                                 'sit',
+                                 'lie/sleep',
+                                 'bend/bow (at the waist)'],
+          'COMMON_CLASS_THRES': 0.7,
+          'DETECTRON2_CFG': 'COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml',
+          'DETECTRON2_THRESH': 0.9,
+          'DETECTRON2_WEIGHTS': 'detectron2://COCO-Detection/faster_rcnn_R_50_FPN_3x/137849458/model_final_280758.pkl',
+          'DISPLAY_HEIGHT': 0,
+          'DISPLAY_WIDTH': 0,
+          'ENABLE': False,
+          'FPS': 30,
+          'GT_BOXES': '',
+          'INPUT_FORMAT': 'BGR',
+          'INPUT_VIDEO': '',
+          'LABEL_FILE_PATH': '',
+          'NUM_CLIPS_SKIP': 0,
+          'NUM_VIS_INSTANCES': 2,
+          'OUTPUT_FILE': '',
+          'OUTPUT_FPS': -1,
+          'PREDS_BOXES': '',
+          'SLOWMO': 1,
+          'STARTING_SECOND': 900,
+          'THREAD_ENABLE': False,
+          'UNCOMMON_CLASS_THRES': 0.3,
+          'VIS_MODE': 'thres',
+          'WEBCAM': -1},
+ 'DETECTION': {'ALIGNED': True,
+               'ENABLE': False,
+               'ROI_XFORM_RESOLUTION': 7,
+               'SPATIAL_SCALE_FACTOR': 16},
+ 'DIST_BACKEND': 'nccl',
+ 'EPICKITCHENS': {'ANNOTATIONS_DIR': '/home/gamir/datasets/datasets/EPIC-KITCHENS',
+                  'TEST_LIST': 'EPIC_100_validation.pkl',
+                  'TEST_SPLIT': 'validation',
+                  'TRAIN_LIST': 'EPIC_100_train.pkl',
+                  'TRAIN_PLUS_VAL': False,
+                  'VAL_LIST': 'EPIC_100_validation.pkl',
+                  'VISUAL_DATA_DIR': '/home/gamir/datasets/datasets/EPIC-KITCHENS/epic-kitchens-download-scripts-master/EPIC-KITCHENS'},
+ 'LOG_MODEL_INFO': False,
+ 'LOG_PERIOD': 10,
+ 'MF': {'APPROX_ATTN_DIM': 128,
+        'APPROX_ATTN_TYPE': 'none',
+        'ATTN_DROPOUT': 0.0,
+        'ATTN_LAYER': 'trajectory',
+        'CHANNELS': 3,
+        'DEPTH': 12,
+        'DROP': 0.0,
+        'DROP_PATH': 0.2,
+        'EMBED_DIM': 768,
+        'HEAD_ACT': 'tanh',
+        'HEAD_DROPOUT': 0.0,
+        'IM_PRETRAINED': True,
+        'MLP_RATIO': 4,
+        'NUM_HEADS': 12,
+        'PATCH_SIZE': 16,
+        'PATCH_SIZE_TEMP': 2,
+        'POS_DROPOUT': 0.0,
+        'POS_EMBED': 'separate',
+        'PRETRAINED_WEIGHTS': 'vit_1k',
+        'QKV_BIAS': True,
+        'TEMPORAL_RESOLUTION': 8,
+        'USE_MLP': True,
+        'VIDEO_INPUT': True},
+ 'MIXUP': {'ALPHA': 0.8,
+           'CUTMIX_ALPHA': 1.0,
+           'ENABLE': False,
+           'LABEL_SMOOTH_VALUE': 0.1,
+           'PROB': 1.0,
+           'SWITCH_PROB': 0.5},
+ 'MODEL': {'ARCH': 'slow',
+           'DROPCONNECT_RATE': 0.0,
+           'DROPOUT_RATE': 0.5,
+           'FC_INIT_STD': 0.01,
+           'HEAD_ACT': 'softmax',
+           'LOAD_IN_PRETRAIN': '',
+           'LOSS_FUNC': 'label_smoothing_cross_entropy',
+           'MODEL_NAME': 'STEVE',
+           'MULTI_PATHWAY_ARCH': ['slowfast'],
+           'NUM_CLASSES': 174,
+           'SINGLE_PATHWAY_ARCH': ['2d', 'c2d', 'i3d', 'slow', 'x3d', 'mvit']},
+ 'MOVI': CfgNode({'PATH': '/raid/MOVI_E_data'}),
+ 'MULTIGRID': {'BN_BASE_SIZE': 8,
+               'DEFAULT_B': 0,
+               'DEFAULT_S': 0,
+               'DEFAULT_T': 0,
+               'EPOCH_FACTOR': 1.5,
+               'EVAL_FREQ': 3,
+               'LONG_CYCLE': False,
+               'LONG_CYCLE_FACTORS': [(0.25, 0.7071067811865476),
+                                      (0.5, 0.7071067811865476),
+                                      (0.5, 1),
+                                      (1, 1)],
+               'LONG_CYCLE_SAMPLING_RATE': 0,
+               'SHORT_CYCLE': False,
+               'SHORT_CYCLE_FACTORS': [0.5, 0.7071067811865476]},
+ 'MVIT': {'CLS_EMBED_ON': True,
+          'DEPTH': 16,
+          'DIM_MUL': [],
+          'DROPOUT_RATE': 0.0,
+          'DROPPATH_RATE': 0.1,
+          'EMBED_DIM': 96,
+          'HEAD_MUL': [],
+          'MLP_RATIO': 4.0,
+          'MODE': 'conv',
+          'NORM': 'layernorm',
+          'NORM_STEM': False,
+          'NUM_HEADS': 1,
+          'PATCH_2D': False,
+          'PATCH_KERNEL': [3, 7, 7],
+          'PATCH_PADDING': [2, 4, 4],
+          'PATCH_STRIDE': [2, 4, 4],
+          'POOL_FIRST': False,
+          'POOL_KVQ_KERNEL': None,
+          'POOL_KV_IGNORE_111_KERNEL': False,
+          'POOL_KV_STRIDE': None,
+          'POOL_KV_STRIDE_ADAPTIVE': None,
+          'POOL_Q_STRIDE': [],
+          'QKV_BIAS': True,
+          'SEP_POS_EMBED': False,
+          'ZERO_DECAY_POS_CLS': True},
+ 'NONLOCAL': {'GROUP': [[1], [1], [1], [1]],
+              'INSTANTIATION': 'dot_product',
+              'LOCATION': [[[]], [[]], [[]], [[]]],
+              'POOL': [[[1, 2, 2], [1, 2, 2]],
+                       [[1, 2, 2], [1, 2, 2]],
+                       [[1, 2, 2], [1, 2, 2]],
+                       [[1, 2, 2], [1, 2, 2]]]},
+ 'NUM_GPUS': 1,
+ 'NUM_SHARDS': 1,
+ 'ORVIT': {'ADD_LAYERS': [],
+           'ENABLE': False,
+           'FIXED_TRAJ': False,
+           'INIT_WEIGHTS': False,
+           'LAYERS': [],
+           'LOAD_ORVIT_ATTN_LAYERS_FROM_BB': True,
+           'MOTION_STREAM_ATTN_TYPE': 'joint',
+           'MOTION_STREAM_DIM': -1,
+           'MOTION_STREAM_N_HEADS': 12,
+           'MOTION_STREAM_SEP_POS_EMB': False,
+           'O': 5,
+           'USE_MOTION_STREAM': True,
+           'ZERO_INIT_ORVIT': False},
+ 'OUTPUT_DIR': './MOVI_E_experiments',
+ 'RESNET': {'DEPTH': 50,
+            'INPLACE_RELU': True,
+            'NUM_BLOCK_TEMP_KERNEL': [[3], [4], [6], [3]],
+            'NUM_GROUPS': 1,
+            'SPATIAL_DILATIONS': [[1], [1], [1], [1]],
+            'SPATIAL_STRIDES': [[1], [2], [2], [2]],
+            'STRIDE_1X1': False,
+            'TRANS_FUNC': 'bottleneck_transform',
+            'WIDTH_PER_GROUP': 64,
+            'ZERO_INIT_FINAL_BN': False},
+ 'RNG_SEED': 0,
+ 'SHARD_ID': 0,
+ 'SLOTS': {'ARCH': 'steve',
+           'CNN_HID_SIZE': 192,
+           'DECODER': {'DIM': 192,
+                       'DROPOUT': 0.1,
+                       'NUM_BLOCKS': 8,
+                       'NUM_HEADS': 4,
+                       'TYPE': 'mlp'},
+           'DROPOUT': 0.1,
+           'HARD': True,
+           'HEADS': 1,
+           'IMG_CHANNELS': 3,
+           'IMG_SIZE': 128,
+           'MLP_HID_SIZE': 192,
+           'NUM_ITERS': 3,
+           'NUM_PREDICTOR_BLOCKS': 8,
+           'NUM_PREDICTOR_HEADS': 4,
+           'NUM_SLOTS': 15,
+           'OUT_H': 8,
+           'OUT_W': 14,
+           'SIZE': 192,
+           'SSL_TYPE': 'dino',
+           'TEACHER': 'r50',
+           'USE_PIXEL_RECON': False,
+           'USE_SSL_FEAT': False,
+           'VOCAB_SIZE': 4096},
+ 'SLOTS_OPTIM': {'CLIP': 1.0,
+                 'DEC': 0.0004,
+                 'DVAE': 0.0003,
+                 'ENC': 0.0001,
+                 'HALF_LIFE': 250000,
+                 'STEPS': 200000,
+                 'STEP_INTERVAL': 5000,
+                 'TAU_FINAL': 0.1,
+                 'TAU_START': 1.0,
+                 'TAU_STEPS': 30000,
+                 'WARMUP_STEPS': 30000},
+ 'SLOWFAST': {'ALPHA': 8,
+              'BETA_INV': 8,
+              'FUSION_CONV_CHANNEL_RATIO': 2,
+              'FUSION_KERNEL_SZ': 5},
+ 'SOLVER': {'BASE_LR': 5e-05,
+            'BASE_LR_SCALE_NUM_SHARDS': False,
+            'CLIP_GRAD_L2NORM': None,
+            'CLIP_GRAD_VAL': None,
+            'COSINE_AFTER_WARMUP': False,
+            'COSINE_END_LR': 0.0,
+            'DAMPENING': 0.0,
+            'GAMMA': 0.1,
+            'LRS': [1, 0.1, 0.01],
+            'LR_POLICY': 'steps_with_relative_lrs',
+            'MAX_EPOCH': 35,
+            'MOMENTUM': 0.9,
+            'NESTEROV': True,
+            'OPTIMIZING_METHOD': 'adam',
+            'ORVIT_BASE_LR': -1.0,
+            'STEPS': [0, 20, 30],
+            'STEP_SIZE': 1,
+            'WARMUP_EPOCHS': 0.0,
+            'WARMUP_FACTOR': 0.1,
+            'WARMUP_START_LR': 0.01,
+            'WEIGHT_DECAY': 0.05,
+            'ZERO_WD_1D_PARAM': False},
+ 'SPLIT_QKV_CHECKPOINT': False,
+ 'SSV2': {'BOXES_FORMAT': 'detectron2',
+          'DATA_ROOT': '/home/gamir/DER-Roei/datasets/smthsmth',
+          'SPLIT': 'standard',
+          'SPLITS_ROOT': '../ORViT/data/ssv2'},
+ 'STEVE': {'ADD_LAYERS': [],
+           'ENABLE': True,
+           'INIT_WEIGHTS': False,
+           'LAYERS': [1, 6, 10],
+           'MOTION_STREAM_ATTN_TYPE': 'joint',
+           'O': 4,
+           'USE_MOTION_STREAM': True},
+ 'TENSORBOARD': {'CATEGORIES_PATH': '',
+                 'CLASS_NAMES_PATH': '',
+                 'CONFUSION_MATRIX': {'ENABLE': False,
+                                      'FIGSIZE': [8, 8],
+                                      'SUBSET_PATH': ''},
+                 'ENABLE': True,
+                 'HISTOGRAM': {'ENABLE': False,
+                               'FIGSIZE': [8, 8],
+                               'SUBSET_PATH': '',
+                               'TOPK': 10},
+                 'LOG_DIR': '',
+                 'MODEL_VIS': {'ACTIVATIONS': False,
+                               'COLORMAP': 'Pastel2',
+                               'ENABLE': False,
+                               'GRAD_CAM': {'COLORMAP': 'viridis',
+                                            'ENABLE': True,
+                                            'LAYER_LIST': [],
+                                            'USE_TRUE_LABEL': False},
+                               'INPUT_VIDEO': False,
+                               'LAYER_LIST': [],
+                               'MODEL_WEIGHTS': False,
+                               'TOPK_PREDS': 1},
+                 'PREDICTIONS_PATH': '',
+                 'WRONG_PRED_VIS': {'ENABLE': False,
+                                    'SUBSET_PATH': '',
+                                    'TAG': 'Incorrectly classified videos.'}},
+ 'TEST': {'BATCH_SIZE': 64,
+          'CHECKPOINT_FILE_PATH': '',
+          'CHECKPOINT_TYPE': 'pytorch',
+          'DATASET': 'MOVI_E_dataset',
+          'ENABLE': True,
+          'NUM_ENSEMBLE_VIEWS': 1,
+          'NUM_SPATIAL_CROPS': 1,
+          'SAVE_RESULTS_PATH': '',
+          'TEST_EPOCH_NUM': -1},
+ 'TRAIN': {'ARCH': 'slots',
+           'AUTO_RESUME': False,
+           'BATCH_SIZE': 2,
+           'CHECKPOINT_CLEAR_NAME_PATTERN': (),
+           'CHECKPOINT_EPOCH_RESET': True,
+           'CHECKPOINT_FILE_PATH': None,
+           'CHECKPOINT_INFLATE': False,
+           'CHECKPOINT_PATH': 'checkpoints',
+           'CHECKPOINT_PERIOD': 1,
+           'CHECKPOINT_REPLACE_NAME_PATTERN': [],
+           'CHECKPOINT_TYPE': 'pytorch',
+           'DATASET': 'Movi_E',
+           'ENABLE': True,
+           'EVAL_PERIOD': 5,
+           'LOG_INTERVAL': 2000,
+           'LOG_PATH': 'logs/',
+           'MIXED_PRECISION': False,
+           'NUM_WORKERS': 6,
+           'VAL_ONLY': False},
+ 'X3D': {'BN_LIN5': False,
+         'BOTTLENECK_FACTOR': 1.0,
+         'CHANNELWISE_3x3x3': True,
+         'DEPTH_FACTOR': 1.0,
+         'DIM_C1': 12,
+         'DIM_C5': 2048,
+         'SCALE_RES2': False,
+         'WIDTH_FACTOR': 1.0}}
+2023-06-27 06:51:50.573047: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2023-06-27 06:51:50.758448: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2023-06-27 06:51:50.758487: I tensorflow/compiler/xla/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+NO CHECKPOINT LOADED! CONTINUE FROM SCRATCH
+2 BATCH SIZE
+[06/27 06:51:51][DEBUG] tpu_cluster_resolver.py:  33: Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
+2023-06-27 06:51:51.593468: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory
+2023-06-27 06:51:51.593611: W tensorflow/compiler/xla/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory
+2023-06-27 06:51:51.593629: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+[06/27 06:51:52][INFO] tensorboard_vis.py:  57: To see logged results in Tensorboard, please launch using the command             `tensorboard  --port=<port-number> --logdir ./MOVI_E_experiments/runs-Movi_E`
+[06/27 06:51:52][INFO] slot_train_net.py: 291: Start epoch: 1
+  0%|          | 0/10236 [00:00<?, ?batch/s]  0%|          | 0/10236 [00:01<?, ?batch/s, EPOCH=0, LOSS=13929.09180, MODE=TRAIN, MSE=5364.91113, STEP=0]  0%|          | 1/10236 [00:01<4:37:04,  1.62s/batch, EPOCH=0, LOSS=13929.09180, MODE=TRAIN, MSE=5364.91113, STEP=0]  0%|          | 1/10236 [00:02<4:37:04,  1.62s/batch, EPOCH=0, LOSS=23255.92969, MODE=TRAIN, MSE=14689.92383, STEP=1]  0%|          | 2/10236 [00:02<2:44:55,  1.03batch/s, EPOCH=0, LOSS=23255.92969, MODE=TRAIN, MSE=14689.92383, STEP=1]  0%|          | 2/10236 [00:02<2:44:55,  1.03batch/s, EPOCH=0, LOSS=29105.82617, MODE=TRAIN, MSE=20542.63281, STEP=2]  0%|          | 3/10236 [00:02<2:07:49,  1.33batch/s, EPOCH=0, LOSS=29105.82617, MODE=TRAIN, MSE=20542.63281, STEP=2]  0%|          | 3/10236 [00:03<2:07:49,  1.33batch/s, EPOCH=0, LOSS=20543.02344, MODE=TRAIN, MSE=11980.68164, STEP=3]  0%|          | 4/10236 [00:03<1:50:22,  1.54batch/s, EPOCH=0, LOSS=20543.02344, MODE=TRAIN, MSE=11980.68164, STEP=3]  0%|          | 4/10236 [00:03<1:50:22,  1.54batch/s, EPOCH=0, LOSS=14597.20996, MODE=TRAIN, MSE=6031.59863, STEP=4]   0%|          | 5/10236 [00:03<1:40:52,  1.69batch/s, EPOCH=0, LOSS=14597.20996, MODE=TRAIN, MSE=6031.59863, STEP=4]  0%|          | 5/10236 [00:04<1:40:52,  1.69batch/s, EPOCH=0, LOSS=21895.48828, MODE=TRAIN, MSE=13330.36426, STEP=5]  0%|          | 6/10236 [00:04<1:35:09,  1.79batch/s, EPOCH=0, LOSS=21895.48828, MODE=TRAIN, MSE=13330.36426, STEP=5]  0%|          | 6/10236 [00:04<1:35:09,  1.79batch/s, EPOCH=0, LOSS=17042.51562, MODE=TRAIN, MSE=8478.49023, STEP=6]   0%|          | 7/10236 [00:04<1:31:33,  1.86batch/s, EPOCH=0, LOSS=17042.51562, MODE=TRAIN, MSE=8478.49023, STEP=6]  0%|          | 7/10236 [00:05<1:31:33,  1.86batch/s, EPOCH=0, LOSS=21403.29883, MODE=TRAIN, MSE=12838.31055, STEP=7]  0%|          | 8/10236 [00:05<1:29:09,  1.91batch/s, EPOCH=0, LOSS=21403.29883, MODE=TRAIN, MSE=12838.31055, STEP=7]  0%|          | 8/10236 [00:05<1:29:09,  1.91batch/s, EPOCH=0, LOSS=21141.35156, MODE=TRAIN, MSE=12578.08789, STEP=8]  0%|          | 9/10236 [00:05<1:27:30,  1.95batch/s, EPOCH=0, LOSS=21141.35156, MODE=TRAIN, MSE=12578.08789, STEP=8]  0%|          | 9/10236 [00:06<1:27:30,  1.95batch/s, EPOCH=0, LOSS=16430.60938, MODE=TRAIN, MSE=7867.59814, STEP=9]   0%|          | 10/10236 [00:06<1:26:23,  1.97batch/s, EPOCH=0, LOSS=16430.60938, MODE=TRAIN, MSE=7867.59814, STEP=9]  0%|          | 10/10236 [00:06<1:26:23,  1.97batch/s, EPOCH=0, LOSS=21979.07031, MODE=TRAIN, MSE=13412.41797, STEP=10]  0%|          | 11/10236 [00:06<1:25:35,  1.99batch/s, EPOCH=0, LOSS=21979.07031, MODE=TRAIN, MSE=13412.41797, STEP=10]  0%|          | 11/10236 [00:07<1:25:35,  1.99batch/s, EPOCH=0, LOSS=24524.47852, MODE=TRAIN, MSE=15960.68164, STEP=11]  0%|          | 12/10236 [00:07<1:26:17,  1.97batch/s, EPOCH=0, LOSS=24524.47852, MODE=TRAIN, MSE=15960.68164, STEP=11]  0%|          | 12/10236 [00:07<1:26:17,  1.97batch/s, EPOCH=0, LOSS=21131.77344, MODE=TRAIN, MSE=12569.72852, STEP=12]  0%|          | 13/10236 [00:07<1:26:41,  1.97batch/s, EPOCH=0, LOSS=21131.77344, MODE=TRAIN, MSE=12569.72852, STEP=12]  0%|          | 13/10236 [00:08<1:26:41,  1.97batch/s, EPOCH=0, LOSS=13569.56250, MODE=TRAIN, MSE=5005.51904, STEP=13]   0%|          | 14/10236 [00:08<1:28:22,  1.93batch/s, EPOCH=0, LOSS=13569.56250, MODE=TRAIN, MSE=5005.51904, STEP=13]  0%|          | 14/10236 [00:08<1:28:22,  1.93batch/s, EPOCH=0, LOSS=22164.85352, MODE=TRAIN, MSE=13604.99902, STEP=14]  0%|          | 15/10236 [00:08<1:29:27,  1.90batch/s, EPOCH=0, LOSS=22164.85352, MODE=TRAIN, MSE=13604.99902, STEP=14]  0%|          | 15/10236 [00:09<1:29:27,  1.90batch/s, EPOCH=0, LOSS=15076.83984, MODE=TRAIN, MSE=6510.86182, STEP=15]   0%|          | 16/10236 [00:09<1:29:54,  1.89batch/s, EPOCH=0, LOSS=15076.83984, MODE=TRAIN, MSE=6510.86182, STEP=15]  0%|          | 16/10236 [00:09<1:29:54,  1.89batch/s, EPOCH=0, LOSS=11898.72461, MODE=TRAIN, MSE=3333.67432, STEP=16]  0%|          | 17/10236 [00:09<1:30:22,  1.88batch/s, EPOCH=0, LOSS=11898.72461, MODE=TRAIN, MSE=3333.67432, STEP=16]  0%|          | 17/10236 [00:10<1:30:22,  1.88batch/s, EPOCH=0, LOSS=17490.83594, MODE=TRAIN, MSE=8927.29395, STEP=17]  0%|          | 18/10236 [00:10<1:29:57,  1.89batch/s, EPOCH=0, LOSS=17490.83594, MODE=TRAIN, MSE=8927.29395, STEP=17]  0%|          | 18/10236 [00:10<1:29:57,  1.89batch/s, EPOCH=0, LOSS=24577.41406, MODE=TRAIN, MSE=16015.31055, STEP=18]  0%|          | 19/10236 [00:10<1:30:15,  1.89batch/s, EPOCH=0, LOSS=24577.41406, MODE=TRAIN, MSE=16015.31055, STEP=18]  0%|          | 19/10236 [00:11<1:30:15,  1.89batch/s, EPOCH=0, LOSS=13328.11133, MODE=TRAIN, MSE=4761.63525, STEP=19]   0%|          | 20/10236 [00:11<1:30:01,  1.89batch/s, EPOCH=0, LOSS=13328.11133, MODE=TRAIN, MSE=4761.63525, STEP=19]  0%|          | 20/10236 [00:11<1:30:01,  1.89batch/s, EPOCH=0, LOSS=18552.58203, MODE=TRAIN, MSE=9986.32715, STEP=20]  0%|          | 21/10236 [00:11<1:32:00,  1.85batch/s, EPOCH=0, LOSS=18552.58203, MODE=TRAIN, MSE=9986.32715, STEP=20]  0%|          | 21/10236 [00:12<1:32:00,  1.85batch/s, EPOCH=0, LOSS=18775.51953, MODE=TRAIN, MSE=10213.69434, STEP=21]  0%|          | 22/10236 [00:12<1:33:13,  1.83batch/s, EPOCH=0, LOSS=18775.51953, MODE=TRAIN, MSE=10213.69434, STEP=21]  0%|          | 22/10236 [00:13<1:33:13,  1.83batch/s, EPOCH=0, LOSS=21933.30859, MODE=TRAIN, MSE=13368.05469, STEP=22]  0%|          | 23/10236 [00:13<1:33:37,  1.82batch/s, EPOCH=0, LOSS=21933.30859, MODE=TRAIN, MSE=13368.05469, STEP=22]  0%|          | 23/10236 [00:13<1:33:37,  1.82batch/s, EPOCH=0, LOSS=14151.14453, MODE=TRAIN, MSE=5588.02002, STEP=23]   0%|          | 24/10236 [00:13<1:33:10,  1.83batch/s, EPOCH=0, LOSS=14151.14453, MODE=TRAIN, MSE=5588.02002, STEP=23]  0%|          | 24/10236 [00:14<1:33:10,  1.83batch/s, EPOCH=0, LOSS=14030.77930, MODE=TRAIN, MSE=5468.07812, STEP=24]  0%|          | 25/10236 [00:14<1:32:18,  1.84batch/s, EPOCH=0, LOSS=14030.77930, MODE=TRAIN, MSE=5468.07812, STEP=24]  0%|          | 25/10236 [00:14<1:32:18,  1.84batch/s, EPOCH=0, LOSS=18624.30859, MODE=TRAIN, MSE=10058.77148, STEP=25]  0%|          | 26/10236 [00:14<1:32:29,  1.84batch/s, EPOCH=0, LOSS=18624.30859, MODE=TRAIN, MSE=10058.77148, STEP=25]  0%|          | 26/10236 [00:15<1:32:29,  1.84batch/s, EPOCH=0, LOSS=13268.22852, MODE=TRAIN, MSE=4703.29053, STEP=26]   0%|          | 27/10236 [00:15<1:32:24,  1.84batch/s, EPOCH=0, LOSS=13268.22852, MODE=TRAIN, MSE=4703.29053, STEP=26]  0%|          | 27/10236 [00:15<1:32:24,  1.84batch/s, EPOCH=0, LOSS=15161.13086, MODE=TRAIN, MSE=6597.11914, STEP=27]  0%|          | 28/10236 [00:15<1:32:11,  1.85batch/s, EPOCH=0, LOSS=15161.13086, MODE=TRAIN, MSE=6597.11914, STEP=27]  0%|          | 28/10236 [00:16<1:32:11,  1.85batch/s, EPOCH=0, LOSS=15185.77637, MODE=TRAIN, MSE=6623.85742, STEP=28]  0%|          | 29/10236 [00:16<1:32:27,  1.84batch/s, EPOCH=0, LOSS=15185.77637, MODE=TRAIN, MSE=6623.85742, STEP=28]  0%|          | 29/10236 [00:16<1:32:27,  1.84batch/s, EPOCH=0, LOSS=16122.46484, MODE=TRAIN, MSE=7557.78369, STEP=29]  0%|          | 30/10236 [00:16<1:32:17,  1.84batch/s, EPOCH=0, LOSS=16122.46484, MODE=TRAIN, MSE=7557.78369, STEP=29]  0%|          | 30/10236 [00:17<1:32:17,  1.84batch/s, EPOCH=0, LOSS=14508.96387, MODE=TRAIN, MSE=5947.31152, STEP=30]  0%|          | 31/10236 [00:17<1:32:11,  1.84batch/s, EPOCH=0, LOSS=14508.96387, MODE=TRAIN, MSE=5947.31152, STEP=30]  0%|          | 31/10236 [00:17<1:32:11,  1.84batch/s, EPOCH=0, LOSS=13134.43750, MODE=TRAIN, MSE=4569.13135, STEP=31]  0%|          | 32/10236 [00:17<1:36:39,  1.76batch/s, EPOCH=0, LOSS=13134.43750, MODE=TRAIN, MSE=4569.13135, STEP=31]  0%|          | 32/10236 [00:18<1:36:39,  1.76batch/s, EPOCH=0, LOSS=13972.11523, MODE=TRAIN, MSE=5408.13184, STEP=32]  0%|          | 33/10236 [00:18<1:37:44,  1.74batch/s, EPOCH=0, LOSS=13972.11523, MODE=TRAIN, MSE=5408.13184, STEP=32]  0%|          | 33/10236 [00:19<1:37:44,  1.74batch/s, EPOCH=0, LOSS=14875.94141, MODE=TRAIN, MSE=6311.20898, STEP=33]  0%|          | 34/10236 [00:19<1:36:55,  1.75batch/s, EPOCH=0, LOSS=14875.94141, MODE=TRAIN, MSE=6311.20898, STEP=33]  0%|          | 34/10236 [00:19<1:36:55,  1.75batch/s, EPOCH=0, LOSS=12567.51953, MODE=TRAIN, MSE=4006.87915, STEP=34]  0%|          | 35/10236 [00:19<1:36:47,  1.76batch/s, EPOCH=0, LOSS=12567.51953, MODE=TRAIN, MSE=4006.87915, STEP=34]  0%|          | 35/10236 [00:20<1:36:47,  1.76batch/s, EPOCH=0, LOSS=15460.54492, MODE=TRAIN, MSE=6895.14551, STEP=35]  0%|          | 36/10236 [00:20<1:36:02,  1.77batch/s, EPOCH=0, LOSS=15460.54492, MODE=TRAIN, MSE=6895.14551, STEP=35]  0%|          | 36/10236 [00:20<1:36:02,  1.77batch/s, EPOCH=0, LOSS=15448.50000, MODE=TRAIN, MSE=6890.80811, STEP=36]  0%|          | 37/10236 [00:20<1:36:09,  1.77batch/s, EPOCH=0, LOSS=15448.50000, MODE=TRAIN, MSE=6890.80811, STEP=36]  0%|          | 37/10236 [00:21<1:36:09,  1.77batch/s, EPOCH=0, LOSS=12502.38672, MODE=TRAIN, MSE=3937.96631, STEP=37]  0%|          | 38/10236 [00:21<1:35:00,  1.79batch/s, EPOCH=0, LOSS=12502.38672, MODE=TRAIN, MSE=3937.96631, STEP=37]  0%|          | 38/10236 [00:22<1:35:00,  1.79batch/s, EPOCH=0, LOSS=11699.86816, MODE=TRAIN, MSE=3138.81738, STEP=38]  0%|          | 39/10236 [00:22<2:05:43,  1.35batch/s, EPOCH=0, LOSS=11699.86816, MODE=TRAIN, MSE=3138.81738, STEP=38]  0%|          | 39/10236 [00:23<2:05:43,  1.35batch/s, EPOCH=0, LOSS=12489.74414, MODE=TRAIN, MSE=3924.63477, STEP=39]  0%|          | 40/10236 [00:23<1:56:01,  1.46batch/s, EPOCH=0, LOSS=12489.74414, MODE=TRAIN, MSE=3924.63477, STEP=39]  0%|          | 40/10236 [00:23<1:56:01,  1.46batch/s, EPOCH=0, LOSS=12970.20312, MODE=TRAIN, MSE=4407.41992, STEP=40]  0%|          | 41/10236 [00:23<1:48:18,  1.57batch/s, EPOCH=0, LOSS=12970.20312, MODE=TRAIN, MSE=4407.41992, STEP=40]  0%|          | 41/10236 [00:24<1:48:18,  1.57batch/s, EPOCH=0, LOSS=12264.21484, MODE=TRAIN, MSE=3700.85205, STEP=41]  0%|          | 42/10236 [00:24<1:42:18,  1.66batch/s, EPOCH=0, LOSS=12264.21484, MODE=TRAIN, MSE=3700.85205, STEP=41]  0%|          | 42/10236 [00:24<1:42:18,  1.66batch/s, EPOCH=0, LOSS=12738.71094, MODE=TRAIN, MSE=4177.00049, STEP=42]  0%|          | 43/10236 [00:24<1:38:37,  1.72batch/s, EPOCH=0, LOSS=12738.71094, MODE=TRAIN, MSE=4177.00049, STEP=42]  0%|          | 43/10236 [00:25<1:38:37,  1.72batch/s, EPOCH=0, LOSS=13744.42773, MODE=TRAIN, MSE=5182.06055, STEP=43]  0%|          | 44/10236 [00:25<1:35:31,  1.78batch/s, EPOCH=0, LOSS=13744.42773, MODE=TRAIN, MSE=5182.06055, STEP=43]  0%|          | 44/10236 [00:25<1:35:31,  1.78batch/s, EPOCH=0, LOSS=15554.65039, MODE=TRAIN, MSE=6991.76367, STEP=44]  0%|          | 45/10236 [00:25<1:37:43,  1.74batch/s, EPOCH=0, LOSS=15554.65039, MODE=TRAIN, MSE=6991.76367, STEP=44]  0%|          | 45/10236 [00:26<1:37:43,  1.74batch/s, EPOCH=0, LOSS=11770.22461, MODE=TRAIN, MSE=3209.08765, STEP=45]  0%|          | 46/10236 [00:26<1:37:59,  1.73batch/s, EPOCH=0, LOSS=11770.22461, MODE=TRAIN, MSE=3209.08765, STEP=45]  0%|          | 46/10236 [00:27<1:37:59,  1.73batch/s, EPOCH=0, LOSS=10561.71094, MODE=TRAIN, MSE=2000.36011, STEP=46]  0%|          | 47/10236 [00:27<1:43:47,  1.64batch/s, EPOCH=0, LOSS=10561.71094, MODE=TRAIN, MSE=2000.36011, STEP=46]  0%|          | 47/10236 [00:27<1:43:47,  1.64batch/s, EPOCH=0, LOSS=12431.80566, MODE=TRAIN, MSE=3867.23706, STEP=47]  0%|          | 48/10236 [00:27<1:40:58,  1.68batch/s, EPOCH=0, LOSS=12431.80566, MODE=TRAIN, MSE=3867.23706, STEP=47]  0%|          | 48/10236 [00:28<1:40:58,  1.68batch/s, EPOCH=0, LOSS=10499.54590, MODE=TRAIN, MSE=1937.75879, STEP=48]  0%|          | 49/10236 [00:28<1:38:15,  1.73batch/s, EPOCH=0, LOSS=10499.54590, MODE=TRAIN, MSE=1937.75879, STEP=48]  0%|          | 49/10236 [00:28<1:38:15,  1.73batch/s, EPOCH=0, LOSS=10499.61426, MODE=TRAIN, MSE=1936.09473, STEP=49]  0%|          | 50/10236 [00:28<1:35:48,  1.77batch/s, EPOCH=0, LOSS=10499.61426, MODE=TRAIN, MSE=1936.09473, STEP=49]  0%|          | 50/10236 [00:29<1:35:48,  1.77batch/s, EPOCH=0, LOSS=12569.85449, MODE=TRAIN, MSE=4001.37793, STEP=50]  0%|          | 51/10236 [00:29<1:40:05,  1.70batch/s, EPOCH=0, LOSS=12569.85449, MODE=TRAIN, MSE=4001.37793, STEP=50]  0%|          | 51/10236 [00:29<1:40:05,  1.70batch/s, EPOCH=0, LOSS=10069.18750, MODE=TRAIN, MSE=1509.21448, STEP=51]  1%|          | 52/10236 [00:29<1:38:49,  1.72batch/s, EPOCH=0, LOSS=10069.18750, MODE=TRAIN, MSE=1509.21448, STEP=51]  1%|          | 52/10236 [00:30<1:38:49,  1.72batch/s, EPOCH=0, LOSS=10816.88086, MODE=TRAIN, MSE=2256.05078, STEP=52]  1%|          | 53/10236 [00:30<1:37:51,  1.73batch/s, EPOCH=0, LOSS=10816.88086, MODE=TRAIN, MSE=2256.05078, STEP=52]  1%|          | 53/10236 [00:30<1:37:51,  1.73batch/s, EPOCH=0, LOSS=11304.17383, MODE=TRAIN, MSE=2740.05029, STEP=53]  1%|          | 54/10236 [00:30<1:36:04,  1.77batch/s, EPOCH=0, LOSS=11304.17383, MODE=TRAIN, MSE=2740.05029, STEP=53]  1%|          | 54/10236 [00:31<1:36:04,  1.77batch/s, EPOCH=0, LOSS=10814.00879, MODE=TRAIN, MSE=2248.95776, STEP=54]  1%|          | 55/10236 [00:31<1:34:44,  1.79batch/s, EPOCH=0, LOSS=10814.00879, MODE=TRAIN, MSE=2248.95776, STEP=54]  1%|          | 55/10236 [00:32<1:34:44,  1.79batch/s, EPOCH=0, LOSS=10343.73633, MODE=TRAIN, MSE=1785.44678, STEP=55]  1%|          | 56/10236 [00:32<1:33:55,  1.81batch/s, EPOCH=0, LOSS=10343.73633, MODE=TRAIN, MSE=1785.44678, STEP=55]  1%|          | 56/10236 [00:32<1:33:55,  1.81batch/s, EPOCH=0, LOSS=13940.77051, MODE=TRAIN, MSE=5381.27832, STEP=56]  1%|          | 57/10236 [00:32<1:39:15,  1.71batch/s, EPOCH=0, LOSS=13940.77051, MODE=TRAIN, MSE=5381.27832, STEP=56]  1%|          | 57/10236 [00:33<1:39:15,  1.71batch/s, EPOCH=0, LOSS=10905.05469, MODE=TRAIN, MSE=2342.84790, STEP=57]  1%|          | 58/10236 [00:33<1:41:09,  1.68batch/s, EPOCH=0, LOSS=10905.05469, MODE=TRAIN, MSE=2342.84790, STEP=57]  1%|          | 58/10236 [00:33<1:41:09,  1.68batch/s, EPOCH=0, LOSS=10296.73730, MODE=TRAIN, MSE=1738.58618, STEP=58]  1%|          | 59/10236 [00:33<1:40:21,  1.69batch/s, EPOCH=0, LOSS=10296.73730, MODE=TRAIN, MSE=1738.58618, STEP=58]  1%|          | 59/10236 [00:34<1:40:21,  1.69batch/s, EPOCH=0, LOSS=11116.99316, MODE=TRAIN, MSE=2556.17358, STEP=59]  1%|          | 60/10236 [00:34<1:39:20,  1.71batch/s, EPOCH=0, LOSS=11116.99316, MODE=TRAIN, MSE=2556.17358, STEP=59]  1%|          | 60/10236 [00:35<1:39:20,  1.71batch/s, EPOCH=0, LOSS=10799.76855, MODE=TRAIN, MSE=2238.94434, STEP=60]  1%|          | 61/10236 [00:35<1:38:05,  1.73batch/s, EPOCH=0, LOSS=10799.76855, MODE=TRAIN, MSE=2238.94434, STEP=60]  1%|          | 61/10236 [00:35<1:38:05,  1.73batch/s, EPOCH=0, LOSS=10244.69336, MODE=TRAIN, MSE=1684.51562, STEP=61]  1%|          | 62/10236 [00:35<1:34:48,  1.79batch/s, EPOCH=0, LOSS=10244.69336, MODE=TRAIN, MSE=1684.51562, STEP=61]  1%|          | 62/10236 [00:36<1:34:48,  1.79batch/s, EPOCH=0, LOSS=10433.99902, MODE=TRAIN, MSE=1875.48608, STEP=62]  1%|          | 63/10236 [00:36<1:32:46,  1.83batch/s, EPOCH=0, LOSS=10433.99902, MODE=TRAIN, MSE=1875.48608, STEP=62]  1%|          | 63/10236 [00:36<1:32:46,  1.83batch/s, EPOCH=0, LOSS=10427.19043, MODE=TRAIN, MSE=1865.29382, STEP=63]  1%|          | 64/10236 [00:36<1:34:20,  1.80batch/s, EPOCH=0, LOSS=10427.19043, MODE=TRAIN, MSE=1865.29382, STEP=63]  1%|          | 64/10236 [00:37<1:34:20,  1.80batch/s, EPOCH=0, LOSS=11529.16211, MODE=TRAIN, MSE=2966.79883, STEP=64]  1%|          | 65/10236 [00:37<1:37:37,  1.74batch/s, EPOCH=0, LOSS=11529.16211, MODE=TRAIN, MSE=2966.79883, STEP=64]  1%|          | 65/10236 [00:37<1:37:37,  1.74batch/s, EPOCH=0, LOSS=11776.48828, MODE=TRAIN, MSE=3215.29736, STEP=65]  1%|          | 66/10236 [00:37<1:37:38,  1.74batch/s, EPOCH=0, LOSS=11776.48828, MODE=TRAIN, MSE=3215.29736, STEP=65]  1%|          | 66/10236 [00:38<1:37:38,  1.74batch/s, EPOCH=0, LOSS=10556.46484, MODE=TRAIN, MSE=1993.67603, STEP=66]  1%|          | 67/10236 [00:38<1:35:26,  1.78batch/s, EPOCH=0, LOSS=10556.46484, MODE=TRAIN, MSE=1993.67603, STEP=66]  1%|          | 67/10236 [00:38<1:35:26,  1.78batch/s, EPOCH=0, LOSS=10760.50000, MODE=TRAIN, MSE=2202.70801, STEP=67]  1%|          | 68/10236 [00:38<1:35:56,  1.77batch/s, EPOCH=0, LOSS=10760.50000, MODE=TRAIN, MSE=2202.70801, STEP=67]  1%|          | 68/10236 [00:39<1:35:56,  1.77batch/s, EPOCH=0, LOSS=9766.49902, MODE=TRAIN, MSE=1206.81128, STEP=68]   1%|          | 69/10236 [00:39<1:34:29,  1.79batch/s, EPOCH=0, LOSS=9766.49902, MODE=TRAIN, MSE=1206.81128, STEP=68]  1%|          | 69/10236 [00:40<1:34:29,  1.79batch/s, EPOCH=0, LOSS=12250.23438, MODE=TRAIN, MSE=3690.70947, STEP=69]  1%|          | 70/10236 [00:40<1:32:25,  1.83batch/s, EPOCH=0, LOSS=12250.23438, MODE=TRAIN, MSE=3690.70947, STEP=69]  1%|          | 70/10236 [00:40<1:32:25,  1.83batch/s, EPOCH=0, LOSS=10007.48828, MODE=TRAIN, MSE=1448.97461, STEP=70]  1%|          | 71/10236 [00:40<1:33:21,  1.81batch/s, EPOCH=0, LOSS=10007.48828, MODE=TRAIN, MSE=1448.97461, STEP=70]  1%|          | 71/10236 [00:41<1:33:21,  1.81batch/s, EPOCH=0, LOSS=9652.68262, MODE=TRAIN, MSE=1093.21594, STEP=71]   1%|          | 72/10236 [00:41<1:58:52,  1.42batch/s, EPOCH=0, LOSS=9652.68262, MODE=TRAIN, MSE=1093.21594, STEP=71]  1%|          | 72/10236 [00:42<1:58:52,  1.42batch/s, EPOCH=0, LOSS=11685.29492, MODE=TRAIN, MSE=3127.70020, STEP=72]  1%|          | 73/10236 [00:42<1:51:18,  1.52batch/s, EPOCH=0, LOSS=11685.29492, MODE=TRAIN, MSE=3127.70020, STEP=72]  1%|          | 73/10236 [00:42<1:51:18,  1.52batch/s, EPOCH=0, LOSS=10506.20020, MODE=TRAIN, MSE=1947.70972, STEP=73]  1%|          | 74/10236 [00:42<1:45:14,  1.61batch/s, EPOCH=0, LOSS=10506.20020, MODE=TRAIN, MSE=1947.70972, STEP=73]  1%|          | 74/10236 [00:43<1:45:14,  1.61batch/s, EPOCH=0, LOSS=14754.84863, MODE=TRAIN, MSE=6196.19043, STEP=74]  1%|          | 75/10236 [00:43<2:10:00,  1.30batch/s, EPOCH=0, LOSS=14754.84863, MODE=TRAIN, MSE=6196.19043, STEP=74]  1%|          | 75/10236 [00:44<2:10:00,  1.30batch/s, EPOCH=0, LOSS=10839.96973, MODE=TRAIN, MSE=2283.22144, STEP=75]  1%|          | 76/10236 [00:44<1:58:48,  1.43batch/s, EPOCH=0, LOSS=10839.96973, MODE=TRAIN, MSE=2283.22144, STEP=75]  1%|          | 76/10236 [00:44<1:58:48,  1.43batch/s, EPOCH=0, LOSS=10329.40430, MODE=TRAIN, MSE=1773.26379, STEP=76]  1%|          | 77/10236 [00:44<1:51:19,  1.52batch/s, EPOCH=0, LOSS=10329.40430, MODE=TRAIN, MSE=1773.26379, STEP=76]  1%|          | 77/10236 [00:45<1:51:19,  1.52batch/s, EPOCH=0, LOSS=11882.93945, MODE=TRAIN, MSE=3332.23389, STEP=77]  1%|          | 78/10236 [00:45<1:45:25,  1.61batch/s, EPOCH=0, LOSS=11882.93945, MODE=TRAIN, MSE=3332.23389, STEP=77]  1%|          | 78/10236 [00:46<1:45:25,  1.61batch/s, EPOCH=0, LOSS=10608.31250, MODE=TRAIN, MSE=2054.47803, STEP=78]  1%|          | 79/10236 [00:46<1:43:03,  1.64batch/s, EPOCH=0, LOSS=10608.31250, MODE=TRAIN, MSE=2054.47803, STEP=78]  1%|          | 79/10236 [00:46<1:43:03,  1.64batch/s, EPOCH=0, LOSS=12073.45801, MODE=TRAIN, MSE=3516.08496, STEP=79]  1%|          | 80/10236 [00:46<1:40:21,  1.69batch/s, EPOCH=0, LOSS=12073.45801, MODE=TRAIN, MSE=3516.08496, STEP=79]  1%|          | 80/10236 [00:47<1:40:21,  1.69batch/s, EPOCH=0, LOSS=12455.71387, MODE=TRAIN, MSE=3906.12988, STEP=80]  1%|          | 81/10236 [00:47<1:38:03,  1.73batch/s, EPOCH=0, LOSS=12455.71387, MODE=TRAIN, MSE=3906.12988, STEP=80]  1%|          | 81/10236 [00:47<1:38:03,  1.73batch/s, EPOCH=0, LOSS=12162.47949, MODE=TRAIN, MSE=3610.92480, STEP=81]  1%|          | 82/10236 [00:47<1:35:28,  1.77batch/s, EPOCH=0, LOSS=12162.47949, MODE=TRAIN, MSE=3610.92480, STEP=81]  1%|          | 82/10236 [00:48<1:35:28,  1.77batch/s, EPOCH=0, LOSS=10800.05469, MODE=TRAIN, MSE=2245.88647, STEP=82]  1%|          | 83/10236 [00:48<1:33:13,  1.82batch/s, EPOCH=0, LOSS=10800.05469, MODE=TRAIN, MSE=2245.88647, STEP=82]  1%|          | 83/10236 [00:48<1:33:13,  1.82batch/s, EPOCH=0, LOSS=11750.36328, MODE=TRAIN, MSE=3198.83203, STEP=83]  1%|          | 84/10236 [00:48<1:32:01,  1.84batch/s, EPOCH=0, LOSS=11750.36328, MODE=TRAIN, MSE=3198.83203, STEP=83]  1%|          | 84/10236 [00:49<1:32:01,  1.84batch/s, EPOCH=0, LOSS=10715.26172, MODE=TRAIN, MSE=2175.96533, STEP=84]  1%|          | 85/10236 [00:49<1:38:45,  1.71batch/s, EPOCH=0, LOSS=10715.26172, MODE=TRAIN, MSE=2175.96533, STEP=84]  1%|          | 85/10236 [00:50<1:38:45,  1.71batch/s, EPOCH=0, LOSS=10282.98828, MODE=TRAIN, MSE=1737.21765, STEP=85]  1%|          | 86/10236 [00:50<1:40:30,  1.68batch/s, EPOCH=0, LOSS=10282.98828, MODE=TRAIN, MSE=1737.21765, STEP=85]  1%|          | 86/10236 [00:50<1:40:30,  1.68batch/s, EPOCH=0, LOSS=10963.46191, MODE=TRAIN, MSE=2410.95020, STEP=86]  1%|          | 87/10236 [00:50<1:44:02,  1.63batch/s, EPOCH=0, LOSS=10963.46191, MODE=TRAIN, MSE=2410.95020, STEP=86]  1%|          | 87/10236 [00:51<1:44:02,  1.63batch/s, EPOCH=0, LOSS=9959.19238, MODE=TRAIN, MSE=1409.44031, STEP=87]   1%|          | 88/10236 [00:51<1:42:43,  1.65batch/s, EPOCH=0, LOSS=9959.19238, MODE=TRAIN, MSE=1409.44031, STEP=87]  1%|          | 88/10236 [00:51<1:42:43,  1.65batch/s, EPOCH=0, LOSS=10280.88574, MODE=TRAIN, MSE=1748.55151, STEP=88]  1%|          | 89/10236 [00:51<1:43:12,  1.64batch/s, EPOCH=0, LOSS=10280.88574, MODE=TRAIN, MSE=1748.55151, STEP=88]  1%|          | 89/10236 [00:52<1:43:12,  1.64batch/s, EPOCH=0, LOSS=11129.09668, MODE=TRAIN, MSE=2591.91797, STEP=89]  1%|          | 90/10236 [00:52<1:42:16,  1.65batch/s, EPOCH=0, LOSS=11129.09668, MODE=TRAIN, MSE=2591.91797, STEP=89]  1%|          | 90/10236 [00:53<1:42:16,  1.65batch/s, EPOCH=0, LOSS=11429.81348, MODE=TRAIN, MSE=2894.86499, STEP=90]  1%|          | 91/10236 [00:53<1:42:27,  1.65batch/s, EPOCH=0, LOSS=11429.81348, MODE=TRAIN, MSE=2894.86499, STEP=90]  1%|          | 91/10236 [00:53<1:42:27,  1.65batch/s, EPOCH=0, LOSS=10341.94727, MODE=TRAIN, MSE=1799.99109, STEP=91]  1%|          | 92/10236 [00:53<1:41:19,  1.67batch/s, EPOCH=0, LOSS=10341.94727, MODE=TRAIN, MSE=1799.99109, STEP=91]  1%|          | 92/10236 [00:54<1:41:19,  1.67batch/s, EPOCH=0, LOSS=9565.12695, MODE=TRAIN, MSE=1027.85791, STEP=92]   1%|          | 93/10236 [00:54<1:40:16,  1.69batch/s, EPOCH=0, LOSS=9565.12695, MODE=TRAIN, MSE=1027.85791, STEP=92]  1%|          | 93/10236 [00:54<1:40:16,  1.69batch/s, EPOCH=0, LOSS=11181.32910, MODE=TRAIN, MSE=2654.35059, STEP=93]  1%|          | 94/10236 [00:54<1:38:13,  1.72batch/s, EPOCH=0, LOSS=11181.32910, MODE=TRAIN, MSE=2654.35059, STEP=93]  1%|          | 94/10236 [00:56<1:38:13,  1.72batch/s, EPOCH=0, LOSS=11532.86035, MODE=TRAIN, MSE=3012.10718, STEP=94]  1%|          | 95/10236 [00:56<2:19:59,  1.21batch/s, EPOCH=0, LOSS=11532.86035, MODE=TRAIN, MSE=3012.10718, STEP=94]  1%|          | 95/10236 [00:56<2:19:59,  1.21batch/s, EPOCH=0, LOSS=10152.61719, MODE=TRAIN, MSE=1626.74438, STEP=95]  1%|          | 96/10236 [00:56<2:05:35,  1.35batch/s, EPOCH=0, LOSS=10152.61719, MODE=TRAIN, MSE=1626.74438, STEP=95]  1%|          | 96/10236 [00:57<2:05:35,  1.35batch/s, EPOCH=0, LOSS=9885.41895, MODE=TRAIN, MSE=1414.17175, STEP=96]   1%|          | 97/10236 [00:57<1:55:13,  1.47batch/s, EPOCH=0, LOSS=9885.41895, MODE=TRAIN, MSE=1414.17175, STEP=96]  1%|          | 97/10236 [00:57<1:55:13,  1.47batch/s, EPOCH=0, LOSS=10243.08008, MODE=TRAIN, MSE=1809.74597, STEP=97]  1%|          | 98/10236 [00:57<1:47:27,  1.57batch/s, EPOCH=0, LOSS=10243.08008, MODE=TRAIN, MSE=1809.74597, STEP=97]  1%|          | 98/10236 [00:58<1:47:27,  1.57batch/s, EPOCH=0, LOSS=10059.30273, MODE=TRAIN, MSE=1662.41382, STEP=98]  1%|          | 99/10236 [00:58<1:47:05,  1.58batch/s, EPOCH=0, LOSS=10059.30273, MODE=TRAIN, MSE=1662.41382, STEP=98]  1%|          | 99/10236 [00:59<1:47:05,  1.58batch/s, EPOCH=0, LOSS=10424.23535, MODE=TRAIN, MSE=1983.22974, STEP=99]  1%|          | 100/10236 [00:59<1:43:20,  1.63batch/s, EPOCH=0, LOSS=10424.23535, MODE=TRAIN, MSE=1983.22974, STEP=99]  1%|          | 100/10236 [00:59<1:43:20,  1.63batch/s, EPOCH=0, LOSS=9561.07617, MODE=TRAIN, MSE=1161.80396, STEP=100]  1%|          | 101/10236 [00:59<1:39:05,  1.70batch/s, EPOCH=0, LOSS=9561.07617, MODE=TRAIN, MSE=1161.80396, STEP=100]  1%|          | 101/10236 [01:00<1:39:05,  1.70batch/s, EPOCH=0, LOSS=9868.12598, MODE=TRAIN, MSE=1481.25073, STEP=101]  1%|          | 102/10236 [01:00<1:36:12,  1.76batch/s, EPOCH=0, LOSS=9868.12598, MODE=TRAIN, MSE=1481.25073, STEP=101]  1%|          | 102/10236 [01:00<1:36:12,  1.76batch/s, EPOCH=0, LOSS=9507.03906, MODE=TRAIN, MSE=1233.84766, STEP=102]  1%|          | 103/10236 [01:00<1:39:33,  1.70batch/s, EPOCH=0, LOSS=9507.03906, MODE=TRAIN, MSE=1233.84766, STEP=102]  1%|          | 103/10236 [01:01<1:39:33,  1.70batch/s, EPOCH=0, LOSS=10641.02051, MODE=TRAIN, MSE=2184.72388, STEP=103]  1%|          | 104/10236 [01:01<1:39:59,  1.69batch/s, EPOCH=0, LOSS=10641.02051, MODE=TRAIN, MSE=2184.72388, STEP=103]  1%|          | 104/10236 [01:01<1:39:59,  1.69batch/s, EPOCH=0, LOSS=9495.38379, MODE=TRAIN, MSE=1261.16418, STEP=104]   1%|          | 105/10236 [01:01<1:39:20,  1.70batch/s, EPOCH=0, LOSS=9495.38379, MODE=TRAIN, MSE=1261.16418, STEP=104]  1%|          | 105/10236 [01:02<1:39:20,  1.70batch/s, EPOCH=0, LOSS=10203.21777, MODE=TRAIN, MSE=1871.30347, STEP=105]  1%|          | 106/10236 [01:02<1:35:55,  1.76batch/s, EPOCH=0, LOSS=10203.21777, MODE=TRAIN, MSE=1871.30347, STEP=105]  1%|          | 106/10236 [01:03<1:35:55,  1.76batch/s, EPOCH=0, LOSS=9481.60156, MODE=TRAIN, MSE=1246.07227, STEP=106]   1%|          | 107/10236 [01:03<1:47:01,  1.58batch/s, EPOCH=0, LOSS=9481.60156, MODE=TRAIN, MSE=1246.07227, STEP=106]  1%|          | 107/10236 [01:03<1:47:01,  1.58batch/s, EPOCH=0, LOSS=9695.77148, MODE=TRAIN, MSE=1551.95239, STEP=107]  1%|          | 108/10236 [01:03<1:44:18,  1.62batch/s, EPOCH=0, LOSS=9695.77148, MODE=TRAIN, MSE=1551.95239, STEP=107]  1%|          | 108/10236 [01:04<1:44:18,  1.62batch/s, EPOCH=0, LOSS=8997.85449, MODE=TRAIN, MSE=707.25195, STEP=108]   1%|          | 109/10236 [01:04<1:40:49,  1.67batch/s, EPOCH=0, LOSS=8997.85449, MODE=TRAIN, MSE=707.25195, STEP=108]  1%|          | 109/10236 [01:05<1:40:49,  1.67batch/s, EPOCH=0, LOSS=9365.85449, MODE=TRAIN, MSE=1137.51855, STEP=109]  1%|          | 110/10236 [01:05<2:09:27,  1.30batch/s, EPOCH=0, LOSS=9365.85449, MODE=TRAIN, MSE=1137.51855, STEP=109]  1%|          | 110/10236 [01:06<2:09:27,  1.30batch/s, EPOCH=0, LOSS=9620.54688, MODE=TRAIN, MSE=1371.35962, STEP=110]  1%|          | 111/10236 [01:06<1:58:42,  1.42batch/s, EPOCH=0, LOSS=9620.54688, MODE=TRAIN, MSE=1371.35962, STEP=110]  1%|          | 111/10236 [01:06<1:58:42,  1.42batch/s, EPOCH=0, LOSS=9381.58008, MODE=TRAIN, MSE=1226.73950, STEP=111]  1%|          | 112/10236 [01:06<1:50:36,  1.53batch/s, EPOCH=0, LOSS=9381.58008, MODE=TRAIN, MSE=1226.73950, STEP=111]  1%|          | 112/10236 [01:07<1:50:36,  1.53batch/s, EPOCH=0, LOSS=9812.27734, MODE=TRAIN, MSE=1577.45801, STEP=112]  1%|          | 113/10236 [01:07<1:44:53,  1.61batch/s, EPOCH=0, LOSS=9812.27734, MODE=TRAIN, MSE=1577.45801, STEP=112]  1%|          | 113/10236 [01:07<1:44:53,  1.61batch/s, EPOCH=0, LOSS=9290.59863, MODE=TRAIN, MSE=1310.31836, STEP=113]  1%|          | 114/10236 [01:07<1:39:14,  1.70batch/s, EPOCH=0, LOSS=9290.59863, MODE=TRAIN, MSE=1310.31836, STEP=113]  1%|          | 114/10236 [01:08<1:39:14,  1.70batch/s, EPOCH=0, LOSS=9626.84277, MODE=TRAIN, MSE=1201.19360, STEP=114]  1%|          | 115/10236 [01:08<1:37:13,  1.73batch/s, EPOCH=0, LOSS=9626.84277, MODE=TRAIN, MSE=1201.19360, STEP=114]  1%|          | 115/10236 [01:08<1:37:13,  1.73batch/s, EPOCH=0, LOSS=8790.34863, MODE=TRAIN, MSE=589.25378, STEP=115]   1%|          | 116/10236 [01:08<1:33:51,  1.80batch/s, EPOCH=0, LOSS=8790.34863, MODE=TRAIN, MSE=589.25378, STEP=115]  1%|          | 116/10236 [01:09<1:33:51,  1.80batch/s, EPOCH=0, LOSS=9386.20215, MODE=TRAIN, MSE=1736.00073, STEP=116]  1%|          | 117/10236 [01:09<1:35:48,  1.76batch/s, EPOCH=0, LOSS=9386.20215, MODE=TRAIN, MSE=1736.00073, STEP=116]  1%|          | 117/10236 [01:09<1:35:48,  1.76batch/s, EPOCH=0, LOSS=8821.73340, MODE=TRAIN, MSE=601.88354, STEP=117]   1%|          | 118/10236 [01:09<1:34:31,  1.78batch/s, EPOCH=0, LOSS=8821.73340, MODE=TRAIN, MSE=601.88354, STEP=117]  1%|          | 118/10236 [01:10<1:34:31,  1.78batch/s, EPOCH=0, LOSS=9465.53418, MODE=TRAIN, MSE=1407.44885, STEP=118]  1%|          | 119/10236 [01:10<1:34:09,  1.79batch/s, EPOCH=0, LOSS=9465.53418, MODE=TRAIN, MSE=1407.44885, STEP=118]  1%|          | 119/10236 [01:11<1:34:09,  1.79batch/s, EPOCH=0, LOSS=8470.99121, MODE=TRAIN, MSE=583.26331, STEP=119]   1%|          | 120/10236 [01:11<2:17:23,  1.23batch/s, EPOCH=0, LOSS=8470.99121, MODE=TRAIN, MSE=583.26331, STEP=119]  1%|          | 120/10236 [01:12<2:17:23,  1.23batch/s, EPOCH=0, LOSS=8991.51172, MODE=TRAIN, MSE=1011.89490, STEP=120]  1%|          | 121/10236 [01:12<2:03:10,  1.37batch/s, EPOCH=0, LOSS=8991.51172, MODE=TRAIN, MSE=1011.89490, STEP=120]  1%|          | 121/10236 [01:12<2:03:10,  1.37batch/s, EPOCH=0, LOSS=8555.31055, MODE=TRAIN, MSE=1091.31067, STEP=121]  1%|          | 122/10236 [01:12<1:53:35,  1.48batch/s, EPOCH=0, LOSS=8555.31055, MODE=TRAIN, MSE=1091.31067, STEP=121]  1%|          | 122/10236 [01:13<1:53:35,  1.48batch/s, EPOCH=0, LOSS=8517.26172, MODE=TRAIN, MSE=754.95551, STEP=122]   1%|          | 123/10236 [01:13<1:46:47,  1.58batch/s, EPOCH=0, LOSS=8517.26172, MODE=TRAIN, MSE=754.95551, STEP=122]  1%|          | 123/10236 [01:14<1:46:47,  1.58batch/s, EPOCH=0, LOSS=8663.99121, MODE=TRAIN, MSE=1141.34375, STEP=123]  1%|          | 124/10236 [01:14<1:48:23,  1.55batch/s, EPOCH=0, LOSS=8663.99121, MODE=TRAIN, MSE=1141.34375, STEP=123]  1%|          | 124/10236 [01:14<1:48:23,  1.55batch/s, EPOCH=0, LOSS=8846.04004, MODE=TRAIN, MSE=1440.07898, STEP=124]  1%|          | 125/10236 [01:14<1:45:06,  1.60batch/s, EPOCH=0, LOSS=8846.04004, MODE=TRAIN, MSE=1440.07898, STEP=124]  1%|          | 125/10236 [01:15<1:45:06,  1.60batch/s, EPOCH=0, LOSS=8766.12598, MODE=TRAIN, MSE=952.17786, STEP=125]   1%|          | 126/10236 [01:15<1:48:09,  1.56batch/s, EPOCH=0, LOSS=8766.12598, MODE=TRAIN, MSE=952.17786, STEP=125]  1%|          | 126/10236 [01:16<1:48:09,  1.56batch/s, EPOCH=0, LOSS=9012.48047, MODE=TRAIN, MSE=949.21143, STEP=126]  1%|          | 127/10236 [01:16<1:48:10,  1.56batch/s, EPOCH=0, LOSS=9012.48047, MODE=TRAIN, MSE=949.21143, STEP=126]  1%|          | 127/10236 [01:16<1:48:10,  1.56batch/s, EPOCH=0, LOSS=8724.22363, MODE=TRAIN, MSE=836.59546, STEP=127]  1%|▏         | 128/10236 [01:16<1:44:01,  1.62batch/s, EPOCH=0, LOSS=8724.22363, MODE=TRAIN, MSE=836.59546, STEP=127]  1%|▏         | 128/10236 [01:17<1:44:01,  1.62batch/s, EPOCH=0, LOSS=8733.87500, MODE=TRAIN, MSE=1051.92822, STEP=128]  1%|▏         | 129/10236 [01:17<1:41:06,  1.67batch/s, EPOCH=0, LOSS=8733.87500, MODE=TRAIN, MSE=1051.92822, STEP=128]  1%|▏         | 129/10236 [01:17<1:41:06,  1.67batch/s, EPOCH=0, LOSS=8145.63086, MODE=TRAIN, MSE=1029.33154, STEP=129]  1%|▏         | 130/10236 [01:17<1:38:32,  1.71batch/s, EPOCH=0, LOSS=8145.63086, MODE=TRAIN, MSE=1029.33154, STEP=129]  1%|▏         | 130/10236 [01:18<1:38:32,  1.71batch/s, EPOCH=0, LOSS=8232.37012, MODE=TRAIN, MSE=700.60004, STEP=130]   1%|▏         | 131/10236 [01:18<2:04:42,  1.35batch/s, EPOCH=0, LOSS=8232.37012, MODE=TRAIN, MSE=700.60004, STEP=130]  1%|▏         | 131/10236 [01:19<2:04:42,  1.35batch/s, EPOCH=0, LOSS=8501.33301, MODE=TRAIN, MSE=618.19434, STEP=131]  1%|▏         | 132/10236 [01:19<1:55:18,  1.46batch/s, EPOCH=0, LOSS=8501.33301, MODE=TRAIN, MSE=618.19434, STEP=131]  1%|▏         | 132/10236 [01:19<1:55:18,  1.46batch/s, EPOCH=0, LOSS=8427.39258, MODE=TRAIN, MSE=818.67371, STEP=132]  1%|▏         | 133/10236 [01:19<1:48:24,  1.55batch/s, EPOCH=0, LOSS=8427.39258, MODE=TRAIN, MSE=818.67371, STEP=132]  1%|▏         | 133/10236 [01:20<1:48:24,  1.55batch/s, EPOCH=0, LOSS=8227.16797, MODE=TRAIN, MSE=1083.10571, STEP=133]  1%|▏         | 134/10236 [01:20<1:42:52,  1.64batch/s, EPOCH=0, LOSS=8227.16797, MODE=TRAIN, MSE=1083.10571, STEP=133]  1%|▏         | 134/10236 [01:20<1:42:52,  1.64batch/s, EPOCH=0, LOSS=8728.26367, MODE=TRAIN, MSE=932.68103, STEP=134]   1%|▏         | 135/10236 [01:20<1:39:10,  1.70batch/s, EPOCH=0, LOSS=8728.26367, MODE=TRAIN, MSE=932.68103, STEP=134]  1%|▏         | 135/10236 [01:21<1:39:10,  1.70batch/s, EPOCH=0, LOSS=8868.26367, MODE=TRAIN, MSE=430.14136, STEP=135]  1%|▏         | 136/10236 [01:21<1:37:41,  1.72batch/s, EPOCH=0, LOSS=8868.26367, MODE=TRAIN, MSE=430.14136, STEP=135]  1%|▏         | 136/10236 [01:22<1:37:41,  1.72batch/s, EPOCH=0, LOSS=8686.54492, MODE=TRAIN, MSE=995.18359, STEP=136]  1%|▏         | 137/10236 [01:22<2:00:25,  1.40batch/s, EPOCH=0, LOSS=8686.54492, MODE=TRAIN, MSE=995.18359, STEP=136]  1%|▏         | 137/10236 [01:23<2:00:25,  1.40batch/s, EPOCH=0, LOSS=8558.15430, MODE=TRAIN, MSE=888.80029, STEP=137]  1%|▏         | 138/10236 [01:23<1:52:41,  1.49batch/s, EPOCH=0, LOSS=8558.15430, MODE=TRAIN, MSE=888.80029, STEP=137]  1%|▏         | 138/10236 [01:23<1:52:41,  1.49batch/s, EPOCH=0, LOSS=8742.27344, MODE=TRAIN, MSE=777.42401, STEP=138]  1%|▏         | 139/10236 [01:23<1:47:51,  1.56batch/s, EPOCH=0, LOSS=8742.27344, MODE=TRAIN, MSE=777.42401, STEP=138]  1%|▏         | 139/10236 [01:24<1:47:51,  1.56batch/s, EPOCH=0, LOSS=8271.22949, MODE=TRAIN, MSE=1038.95081, STEP=139]  1%|▏         | 140/10236 [01:24<1:42:50,  1.64batch/s, EPOCH=0, LOSS=8271.22949, MODE=TRAIN, MSE=1038.95081, STEP=139]  1%|▏         | 140/10236 [01:24<1:42:50,  1.64batch/s, EPOCH=0, LOSS=9287.20898, MODE=TRAIN, MSE=1072.41565, STEP=140]  1%|▏         | 141/10236 [01:24<1:39:07,  1.70batch/s, EPOCH=0, LOSS=9287.20898, MODE=TRAIN, MSE=1072.41565, STEP=140]  1%|▏         | 141/10236 [01:25<1:39:07,  1.70batch/s, EPOCH=0, LOSS=8823.26758, MODE=TRAIN, MSE=711.53827, STEP=141]   1%|▏         | 142/10236 [01:25<1:35:54,  1.75batch/s, EPOCH=0, LOSS=8823.26758, MODE=TRAIN, MSE=711.53827, STEP=141]  1%|▏         | 142/10236 [01:25<1:35:54,  1.75batch/s, EPOCH=0, LOSS=7985.84912, MODE=TRAIN, MSE=942.84961, STEP=142]  1%|▏         | 143/10236 [01:25<1:34:01,  1.79batch/s, EPOCH=0, LOSS=7985.84912, MODE=TRAIN, MSE=942.84961, STEP=142]  1%|▏         | 143/10236 [01:26<1:34:01,  1.79batch/s, EPOCH=0, LOSS=7938.88037, MODE=TRAIN, MSE=996.78381, STEP=143]  1%|▏         | 144/10236 [01:26<1:32:01,  1.83batch/s, EPOCH=0, LOSS=7938.88037, MODE=TRAIN, MSE=996.78381, STEP=143]  1%|▏         | 144/10236 [01:26<1:32:01,  1.83batch/s, EPOCH=0, LOSS=8515.56934, MODE=TRAIN, MSE=890.31659, STEP=144]  1%|▏         | 145/10236 [01:26<1:31:46,  1.83batch/s, EPOCH=0, LOSS=8515.56934, MODE=TRAIN, MSE=890.31659, STEP=144]  1%|▏         | 145/10236 [01:27<1:31:46,  1.83batch/s, EPOCH=0, LOSS=8715.48242, MODE=TRAIN, MSE=745.78772, STEP=145]  1%|▏         | 146/10236 [01:27<1:31:07,  1.85batch/s, EPOCH=0, LOSS=8715.48242, MODE=TRAIN, MSE=745.78772, STEP=145]  1%|▏         | 146/10236 [01:27<1:31:07,  1.85batch/s, EPOCH=0, LOSS=8513.31738, MODE=TRAIN, MSE=953.65887, STEP=146]  1%|▏         | 147/10236 [01:27<1:30:57,  1.85batch/s, EPOCH=0, LOSS=8513.31738, MODE=TRAIN, MSE=953.65887, STEP=146]  1%|▏         | 147/10236 [01:28<1:30:57,  1.85batch/s, EPOCH=0, LOSS=8426.93652, MODE=TRAIN, MSE=955.56250, STEP=147]  1%|▏         | 148/10236 [01:28<1:33:42,  1.79batch/s, EPOCH=0, LOSS=8426.93652, MODE=TRAIN, MSE=955.56250, STEP=147]  1%|▏         | 148/10236 [01:29<1:33:42,  1.79batch/s, EPOCH=0, LOSS=9037.45508, MODE=TRAIN, MSE=806.96277, STEP=148]  1%|▏         | 149/10236 [01:29<1:34:53,  1.77batch/s, EPOCH=0, LOSS=9037.45508, MODE=TRAIN, MSE=806.96277, STEP=148]  1%|▏         | 149/10236 [01:30<1:34:53,  1.77batch/s, EPOCH=0, LOSS=8428.90625, MODE=TRAIN, MSE=893.44360, STEP=149]  1%|▏         | 150/10236 [01:30<2:25:30,  1.16batch/s, EPOCH=0, LOSS=8428.90625, MODE=TRAIN, MSE=893.44360, STEP=149]  1%|▏         | 150/10236 [01:31<2:25:30,  1.16batch/s, EPOCH=0, LOSS=7933.54443, MODE=TRAIN, MSE=655.27832, STEP=150]  1%|▏         | 151/10236 [01:31<2:09:31,  1.30batch/s, EPOCH=0, LOSS=7933.54443, MODE=TRAIN, MSE=655.27832, STEP=150]

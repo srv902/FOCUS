@@ -45,7 +45,7 @@ def run(
     # Initialize the process group.
     world_size = num_proc * num_shards
     rank = shard_id * num_proc + local_rank
-
+       
     try:
         torch.distributed.init_process_group(
             backend=backend,
@@ -62,6 +62,7 @@ def run(
         import os
         print(f"LOCAL RANK: {local_rank}, CUDA_VISIBLE_DEVICES: {os.environ['CUDA_VISIBLE_DEVICES']}")
         raise(e)
+    
     ret = func(cfg)
     if output_queue is not None and local_rank == 0:
         output_queue.put(ret)
