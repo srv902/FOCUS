@@ -31,9 +31,16 @@ _C.STEVE.USE_MOTION_STREAM = True
 _C.STEVE.MOTION_STREAM_ATTN_TYPE = 'joint'
 
 
+# experiment specific controls, name, log, vis etc.
+_C.EXP = CfgNode()
+_C.EXP.NAME = 'test'
+_C.EXP.PATH = ''
+
+
 # slot specific controls 
 _C.SLOTS = CfgNode()
-_C.SLOTS.SIZE = 32
+_C.SLOTS.SIZE = 192
+_C.SLOTS.DIM = 192
 _C.SLOTS.NUM_SLOTS = 7 # num slots in use!
 _C.SLOTS.HEADS = 1
 _C.SLOTS.HARD = True
@@ -49,7 +56,7 @@ _C.SLOTS.CNN_HID_SIZE = 64
 _C.SLOTS.MLP_HID_SIZE = 1024
 _C.SLOTS.NUM_PREDICTOR_HEADS = 8
 _C.SLOTS.NUM_PREDICTOR_BLOCKS = 4
-_C.SLOTS.DROPOUT = 0.0
+_C.SLOTS.PREDICTOR_DROPOUT = 0.0
 _C.SLOTS.VOCAB_SIZE = 4096
 _C.SLOTS.OUT_H = 8
 _C.SLOTS.OUT_W = 14 
@@ -124,7 +131,11 @@ _C.TRAIN = CfgNode()
 _C.TRAIN.ENABLE = True
 
 # If slots, slots ar, slot vis or ar used for the method!
-_C.TRAIN.ARCH = 'ar'
+_C.TRAIN.METHOD = 'slots' # NOTE: "sup" for action recognition. 
+# NOTE: video obj segmentation tasks not supported yet!
+
+# # type of downstream task to evaluate on ..
+# _C.TRAIN.TASK = 'segmentation'
 
 # Dataset.
 _C.TRAIN.DATASET = "kinetics"
@@ -243,6 +254,8 @@ _C.TEST.ENABLE = True
 
 # Dataset for testing.
 _C.TEST.DATASET = "kinetics"
+
+_C.TEST.EVAL_TASK = 'segmentation'
 
 # Total mini-batch size
 _C.TEST.BATCH_SIZE = 8
@@ -369,6 +382,9 @@ _C.MODEL.ARCH = "slowfast"
 
 # Model name
 _C.MODEL.MODEL_NAME = "SlowFast"
+
+# feature encoder type 
+_C.MODEL.CNN_NAME = 'base'
 
 # The number of classes to predict for the model.
 _C.MODEL.NUM_CLASSES = 400
@@ -668,6 +684,11 @@ _C.DATA.ENSEMBLE_METHOD = "sum"
 # If True, revert the default input channel (RBG <-> BGR).
 _C.DATA.REVERSE_INPUT_CHANNEL = False
 
+# for movi e specific information ..
+_C.DATA.GLOB_EXP = "*.png"
+
+# number of segmentation masks present ..
+_C.DATA.NUM_SEGS = 25
 
 # FOR CHOLEC SPECIFIC DATA..
 _C.DATA.SPLIT = 'ctp'

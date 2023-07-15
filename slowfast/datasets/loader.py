@@ -108,6 +108,10 @@ def construct_loader(cfg, split, is_precise_bn=False):
         shuffle = False
         drop_last = False
 
+    # print("cfg is >>> ")
+    # print(cfg)
+    # exit()
+    
     # Construct the dataset
     dataset = build_dataset(dataset_name, cfg, split)
     

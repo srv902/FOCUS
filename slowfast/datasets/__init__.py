@@ -8,8 +8,8 @@ from .imagenet import Imagenet  # noqa
 from .kinetics import Kinetics  # noqa
 from .ssv2 import Ssv2  # noqa
 from .epickitchens import Epickitchens  # noqa
-from .cholec80 import Cholec80
-
+from .cholec80 import Cholec80 #noqa
+from .movi_e import Movi_e #noqa
 
 try:
     from .ptv_datasets import Ptvcharades, Ptvkinetics, Ptvssv2  # noqa

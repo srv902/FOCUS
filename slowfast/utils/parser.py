@@ -59,6 +59,14 @@ def parse_args():
         default=None,
         nargs=argparse.REMAINDER,
     )
+    # NOTE: added for exp name and logging ..
+    parser.add_argument(
+        "--exp_name",
+        help="Name of the experiment to run",
+        default="steve",
+        type=str,
+    )
+
     if len(sys.argv) == 1:
         parser.print_help()
     return parser.parse_args()
@@ -78,9 +86,11 @@ def load_config(args):
     # Load config from cfg.
     if args.cfg_file is not None:
         cfg.merge_from_file(args.cfg_file)
+
     # Load config from command line, overwrite config from opts.
     if args.opts is not None:
         cfg.merge_from_list(args.opts)
+    # print("issue here!")
 
     # Inherit parameters from args.
     if hasattr(args, "num_shards") and hasattr(args, "shard_id"):
@@ -91,6 +101,9 @@ def load_config(args):
     if hasattr(args, "output_dir"):
         cfg.OUTPUT_DIR = args.output_dir
 
-    # Create the checkpoint dir.
-    cu.make_checkpoint_dir(cfg.OUTPUT_DIR)
+    # Create the checkpoint dir. NOTE: changed to experiment based directory ..
+    # cu.make_checkpoint_dir(cfg.OUTPUT_DIR)
+
+    cu.make_checkpoint_dir(cfg.OUTPUT_DIR, args.exp_name)
+
     return cfg

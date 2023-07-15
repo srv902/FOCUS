@@ -18,13 +18,15 @@ from slowfast.utils.env import checkpoint_pathmgr as pathmgr
 logger = logging.get_logger(__name__)
 
 
-def make_checkpoint_dir(path_to_job):
+def make_checkpoint_dir(path_to_job, ex_name='test'):
     """
     Creates the checkpoint directory (if not present already).
     Args:
         path_to_job (string): the path to the folder of the current job.
     """
-    checkpoint_dir = os.path.join(path_to_job, "checkpoints")
+    # checkpoint_dir = os.path.join(path_to_job, "checkpoints")
+    checkpoint_dir = os.path.join(path_to_job, ex_name)
+
     # Create the checkpoint dir from the master process
     if du.is_master_proc() and not pathmgr.exists(checkpoint_dir):
         try:
@@ -50,7 +52,8 @@ def get_path_to_checkpoint(path_to_job, epoch):
         path_to_job (string): the path to the folder of the current job.
         epoch (int): the number of epoch for the checkpoint.
     """
-    name = "checkpoint_epoch_{:05d}.pyth".format(epoch)
+    # name = "checkpoint_epoch_{:05d}.pyth".format(epoch)
+    name = "ckp_ep_{:05d}.pyth".format(epoch)
     return os.path.join(get_checkpoint_dir(path_to_job), name)
 
 
@@ -135,6 +138,9 @@ def save_checkpoint(path_to_job, model, optimizer, epoch, cfg, scaler=None):
         checkpoint["scaler_state"] = scaler.state_dict()
     # Write the checkpoint.
     path_to_checkpoint = get_path_to_checkpoint(path_to_job, epoch + 1)
+    
+    print("path to ckp >>> ", path_to_checkpoint)
+    # exit()
     with pathmgr.open(path_to_checkpoint, "wb") as f:
         torch.save(checkpoint, f)
     return path_to_checkpoint
@@ -483,7 +489,8 @@ def load_test_checkpoint(cfg, model):
     """
     if cfg.TEST.TEST_EPOCH_NUM > 0:
         n = cfg.TEST.TEST_EPOCH_NUM
-        cfg.TEST.CHECKPOINT_FILE_PATH = os.path.join(cfg.OUTPUT_DIR, 'checkpoints', f'checkpoint_epoch_{n:05}.pyth')
+        # cfg.TEST.CHECKPOINT_FILE_PATH = os.path.join(cfg.OUTPUT_DIR, 'checkpoints', f'checkpoint_epoch_{n:05}.pyth')
+        cfg.TEST.CHECKPOINT_FILE_PATH = os.path.join(cfg.OUTPUT_DIR, 'checkpoints', f'ckp_ep_{n:05}.pyth')
     # Load a checkpoint to test if applicable.
     if cfg.TEST.CHECKPOINT_FILE_PATH != "":
         # If no checkpoint found in MODEL_VIS.CHECKPOINT_FILE_PATH or in the current

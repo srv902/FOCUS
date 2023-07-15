@@ -6,6 +6,7 @@ from .utils import *
 from .dvae import dVAE
 from .transformer import TransformerEncoder, TransformerDecoder
 from ..build import MODEL_REGISTRY
+import torch.nn.functional as F
 
 class SlotAttentionVideo(nn.Module):
     
@@ -158,21 +159,65 @@ class OneHotDictionary(nn.Module):
         return token_embs
 
 
+class BaseCNN(nn.Module):
+    def __init__(self, args):
+        super().__init__()
+        self.fenc = nn.Sequential(
+            Conv2dBlock(args.SLOTS.IMG_CHANNELS, args.SLOTS.CNN_HID_SIZE, 5, 1 if args.SLOTS.IMG_SIZE == 64 else 2, 2),
+            Conv2dBlock(args.SLOTS.CNN_HID_SIZE, args.SLOTS.CNN_HID_SIZE, 5, 1, 2),
+            Conv2dBlock(args.SLOTS.CNN_HID_SIZE, args.SLOTS.CNN_HID_SIZE, 5, 1, 2),
+            conv2d(args.SLOTS.CNN_HID_SIZE, args.SLOTS.DECODER.DIM, 5, 1, 2),
+        )
+
+    def forward(self, x):
+        return self.fenc(x)
+
+class Res18Block(nn.Module):
+    def __init__(self, args):
+        super().__init__()
+        from torchvision.models import resnet18
+        self.res18 = resnet18()
+
+        # change the first conv in resnet18 ..
+        self.res18.conv1 = nn.Conv2d(args.SLOTS.IMG_CHANNELS, args.SLOTS.CNN_HID_SIZE, 3, 1, 1)
+
+        # get the first two blocks of resnet18
+        self.fenc = nn.Sequential(*list(self.res18.children())[:-5])
+
+        # add upconvolution to map to image size ..
+        self.upconv = nn.ConvTranspose2d(args.SLOTS.CNN_HID_SIZE, 
+                                args.SLOTS.DECODER.DIM, 
+                                3, 
+                                stride=2, 
+                                padding=1, 
+                                dilation=1, 
+                                output_padding=1
+                        )
+
+    def forward(self, x):
+        x = self.fenc(x)
+        x = F.relu(x)
+        x = self.upconv(x)
+
+        return x
+
+def fetch_visual_encoder(args):
+    if args.MODEL.CNN_NAME == 'base':
+        return BaseCNN(args)
+    elif args.MODEL.CNN_NAME == 'res18':
+        return Res18Block(args)
+    else:
+        raise ValueError("Incorrect cnn name provided!")
+
+
 class STEVEEncoder(nn.Module):
     def __init__(self, args):
         super().__init__()
-        
-        cnn_hid_size = args.SLOTS.CNN_HID_SIZE
-        img_channels = args.SLOTS.IMG_CHANNELS
-        img_sz = args.SLOTS.IMG_SIZE
-        self.cnn = nn.Sequential(
-            Conv2dBlock(img_channels, cnn_hid_size, 5, 1 if img_sz == 64 else 2, 2),
-            Conv2dBlock(cnn_hid_size, cnn_hid_size, 5, 1, 2),
-            Conv2dBlock(cnn_hid_size, cnn_hid_size, 5, 1, 2),
-            conv2d(cnn_hid_size, args.SLOTS.DECODER.DIM, 5, 1, 2),
-        )
 
-        self.pos = CartesianPositionalEmbedding(args.SLOTS.DECODER.DIM, img_sz if img_sz == 64 else img_sz // 2)
+        # visual encoder ..
+        self.cnn = fetch_visual_encoder(args)
+
+        self.pos = CartesianPositionalEmbedding(args.SLOTS.DECODER.DIM, args.SLOTS.IMG_SIZE if args.SLOTS.IMG_SIZE == 64 else args.SLOTS.IMG_SIZE // 2)
 
         self.layer_norm = nn.LayerNorm(args.SLOTS.DECODER.DIM)
 
@@ -183,10 +228,10 @@ class STEVEEncoder(nn.Module):
 
         self.savi = SlotAttentionVideo(
             args.SLOTS.NUM_ITERS, args.SLOTS.NUM_SLOTS,
-            args.SLOTS.DECODER.DIM, args.SLOTS.SIZE, args.SLOTS.MLP_HID_SIZE,
-            args.SLOTS.NUM_PREDICTOR_BLOCKS, args.SLOTS.NUM_PREDICTOR_HEADS, args.SLOTS.DROPOUT)
+            args.SLOTS.DIM, args.SLOTS.SIZE, args.SLOTS.MLP_HID_SIZE,
+            args.SLOTS.NUM_PREDICTOR_BLOCKS, args.SLOTS.NUM_PREDICTOR_HEADS, args.SLOTS.PREDICTOR_DROPOUT)
 
-        self.slot_proj = linear(args.SLOTS.SIZE, args.SLOTS.DECODER.DIM, bias=False)
+        self.slot_proj = linear(args.SLOTS.SIZE, args.SLOTS.DIM, bias=False)
 
 
 class STEVEDecoder(nn.Module):
@@ -235,6 +280,9 @@ class STEVE(nn.Module):
     def forward(self, video, tau, hard):
         B, T, C, H, W = video.size()
 
+        # print("video size as input >> ", video.shape)
+        # exit()
+
         video_flat = video.flatten(end_dim=1)                               # B * T, C, H, W
 
         # dvae encode
@@ -250,16 +298,8 @@ class STEVE(nn.Module):
         dvae_recon = self.dvae.decoder(z_soft).reshape(B, T, C, H, W)               # B, T, C, H, W
         dvae_mse = ((video - dvae_recon) ** 2).sum() / (B * T)                      # 1
 
-        # savi
-        # print("video flat >> ", video_flat.shape)
         emb = self.steve_encoder.cnn(video_flat)      # B * T, cnn_hidden_size, H, W
-        
-
-        # NOTE checks 
-        # print("size of emb >> ", emb.shape)
-        # print("video flat >> ", video_flat.shape)
-
-        # exit()
+        # print("size of the embedding from cnn >> ", emb.shape)
 
         emb = self.steve_encoder.pos(emb)             # B * T, cnn_hidden_size, H, W
         H_enc, W_enc = emb.shape[-2:]
