@@ -2,11 +2,11 @@
 
 #SBATCH -N 1
 #SBATCH -c 4
-#SBATCH -J steve_x1
+#SBATCH -J steve_base
 #SBATCH --exclude=DemoRTX,ServerA100
 #SBATCH --gres=gpu:1
 #SBATCH --time=60:00:00
-#SBATCH -o ./reports/steve_x1%j.out
+#SBATCH -o ./reports/steve_base%j.out
 
 source $(conda info --base)/bin/activate
 conda activate torch12_cuda102

@@ -135,7 +135,7 @@ MODEL:
   NUM_CLASSES: 174
   ARCH: slow
   MODEL_NAME: STEVE #Motionformer
-  CNN_NAME: res18 # base # resnet18block
+  CNN_NAME: base # base # resnet18block
   LOSS_FUNC: label_smoothing_cross_entropy
 TEST:
   ENABLE: False
