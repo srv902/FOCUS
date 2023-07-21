@@ -45,7 +45,7 @@ def get_checkpoint_dir(path_to_job):
     return os.path.join(path_to_job, "checkpoints")
 
 
-def get_path_to_checkpoint(path_to_job, epoch):
+def get_path_to_checkpoint(path_to_job, epoch, name='ckp_ep', fmt='.pyth'):
     """
     Get the full path to a checkpoint file.
     Args:
@@ -53,9 +53,10 @@ def get_path_to_checkpoint(path_to_job, epoch):
         epoch (int): the number of epoch for the checkpoint.
     """
     # name = "checkpoint_epoch_{:05d}.pyth".format(epoch)
-    name = "ckp_ep_{:05d}.pyth".format(epoch)
+    # name = "ckp_ep_{:05d}.pyth".format(epoch)
+    # name = f"{name}_{epoch:05}{fmt}"
+    name = f"{name}{fmt}"
     return os.path.join(get_checkpoint_dir(path_to_job), name)
-
 
 def get_last_checkpoint(path_to_job):
     """
@@ -108,7 +109,15 @@ def is_checkpoint_epoch(cfg, cur_epoch, multigrid_schedule=None):
     return (cur_epoch + 1) % cfg.TRAIN.CHECKPOINT_PERIOD == 0
 
 
-def save_checkpoint(path_to_job, model, optimizer, epoch, cfg, scaler=None):
+def save_checkpoint(path_to_job, 
+                model, 
+                optimizer, 
+                epoch, 
+                cfg, 
+                ckp_name='test',
+                name='ckp_ep', 
+                fmt='.pyth', 
+                scaler=None):
     """
     Save a checkpoint.
     Args:
@@ -137,7 +146,11 @@ def save_checkpoint(path_to_job, model, optimizer, epoch, cfg, scaler=None):
     if scaler is not None:
         checkpoint["scaler_state"] = scaler.state_dict()
     # Write the checkpoint.
-    path_to_checkpoint = get_path_to_checkpoint(path_to_job, epoch + 1)
+    path_to_checkpoint = get_path_to_checkpoint(path_to_job, 
+                                        epoch + 1,
+                                        name, 
+                                        fmt
+                                        )
     
     print("path to ckp >>> ", path_to_checkpoint)
     # exit()

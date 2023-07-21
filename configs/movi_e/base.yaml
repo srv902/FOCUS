@@ -92,11 +92,12 @@ SOLVER:
   LR_POLICY: steps_with_relative_lrs
   LRS: [1, 0.1, 0.01]
   STEPS: [0, 20, 30]
-  MAX_EPOCH: 35 # num epochs used !
+  MAX_EPOCH: 100 # 35 # num epochs used !
   MOMENTUM: 0.9
   WEIGHT_DECAY: 5e-2
   WARMUP_EPOCHS: 0.0
   OPTIMIZING_METHOD: adam
+  CLIP_GRAD_L2NORM: 0.05
 SLOWFAST:
   ALPHA: 8
 MF:

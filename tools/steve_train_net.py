@@ -53,10 +53,6 @@ def slot_train_epoch(
 
     # NOTE: (inputs, labels, _vid_idx, meta) replaced with video only for STEVE codebase
     for cur_iter, video in enumerate(tqdm_loader):
-        # Transfer the data to the current GPU device.
-        if cfg.NUM_GPUS:
-            video = misc.iter_to_cuda(video)
-
         # compute misc variables needed for slot training ..
         global_step = cur_epoch * data_size + cur_iter
 
@@ -84,25 +80,28 @@ def slot_train_epoch(
 
         lr_decay_factor = math.exp(global_step / cfg.SLOTS_OPTIM.HALF_LIFE * math.log(0.5))
 
+        # set lr for model components ..
         optim.set_slot_lr(optimizer,
                         cfg,
                         lr_decay_factor,
                         lr_warmup_factor_enc,
                         lr_warmup_factor_dec)
-
         # train_meter.data_toc()
+
+        # Transfer the data to the current GPU device.
+        if cfg.NUM_GPUS:
+            video = misc.iter_to_cuda(video)
 
         with torch.cuda.amp.autocast(enabled=cfg.TRAIN.MIXED_PRECISION):
             # preds = model(inputs, meta)
             (recon, cross_entropy, mse, attns) = model(video, tau, cfg.SLOTS.HARD)
 
-            # reduce loss to mean ..
+            # reduce loss to mean .. NOTE: add data parallel step?
             mse = mse.mean()
             cross_entropy = cross_entropy.mean()
 
             loss = mse + cross_entropy
             loss_dict = {'loss': loss}
-
 
         # check Nan Loss.
         misc.check_nan_losses(loss)
@@ -117,7 +116,7 @@ def slot_train_epoch(
             torch.nn.utils.clip_grad_value_(
                 model.parameters(), cfg.SOLVER.CLIP_GRAD_VAL
             )
-        elif cfg.SOLVER.CLIP_GRAD_L2NORM:
+        elif cfg.SOLVER.CLIP_GRAD_L2NORM: # NOTE: activated in STEVE
             torch.nn.utils.clip_grad_norm_(
                 model.parameters(), cfg.SOLVER.CLIP_GRAD_L2NORM
             )    
@@ -127,8 +126,9 @@ def slot_train_epoch(
         scaler.update()
 
         # logs ..
-        if writer is not None:
-            tqdm_loader.set_postfix(MODE='TRAIN', EPOCH=cur_epoch, STEP=global_step, LOSS=f'{loss.item():.5f}', MSE=f'{mse.item():.5f}')
+        # if writer is not None:
+        with torch.no_grad():
+            tqdm_loader.set_postfix(MODE='TRAIN', EPOCH=cur_epoch+1, STEP=global_step, LOSS=f'{loss.item():.5f}', MSE=f'{mse.item():.5f}')
             # NOTE: create dict as the writer is Tensorboard Writer not SummaryWriter
             _add = {"TRAIN/loss": loss.item()}
             _add.update({'TRAIN/cross_entropy':cross_entropy.item()})
@@ -142,48 +142,37 @@ def slot_train_epoch(
                 _add,
                 global_step=global_step,
             )
-        
-        # end of interval epoch ..
-        with torch.no_grad():
-            if (global_step % cfg.SLOTS_OPTIM.STEP_INTERVAL == 0) and (global_step >= cfg.SLOTS_OPTIM.STEP_INTERVAL):
-                # gen_video = model.module.reconstruct_autoregressive(inputs[:8])
-                gen_video = (model.module if cfg.NUM_GPUS>1 else model).reconstruct_autoregressive(video[:8])
-                frames = smisc.visualize(video, recon, gen_video, attns, cfg.SLOTS.NUM_SLOTS, N=8)
-                # writer.add_video(f'TRAIN_recons1/steps={global_step}', frames)
-                writer.add_video(frames,
-                    tag=f'TRAIN_recons1/steps={global_step}',
-                    global_step=global_step)
 
     # end of one epoch ..
     with torch.no_grad():
-        # gen_video = model.module.reconstruct_autoregressive(inputs[:8])
         gen_video = (model.module if cfg.NUM_GPUS>1 else model).reconstruct_autoregressive(video[:8])
         frames = smisc.visualize(video, recon, gen_video, attns, cfg.SLOTS.NUM_SLOTS, N=8)
-        # writer.add_video(f'TRAIN_recons2/epoch={epoch+1}', frames)
-        writer.add_video(frames, 
-                    tag=f'TRAIN_recons2/epoch={cur_epoch}',
-                    global_step=cur_epoch)
+        writer.add_video(frames, tag=f'TRAIN_recons/epoch={cur_epoch+1}', global_step=cur_epoch+1)
 
     # NOTE: return optim specific variables. Short fix for now. 
-    opd = {'tau': tau}
+    opd = {
+            'tau': tau,
+            'global_step': global_step
+        }
     
     return opd
-
 
 @torch.no_grad()
 def eval_epoch(
         val_loader,
         model,
-        val_meter,
         cur_epoch,
         cfg,
         opd,
         writer=None
     ):
-
     """ Perform validation for one epoch. """
-
     model.eval()
+
+    # meters for mse and cross_entropy.
+    mse_meter = MetricTracker()
+    ce_meter  = MetricTracker()
+
     data_size = len(val_loader)
     tqdm_loader = tqdm(val_loader, unit='batch')
 
@@ -194,38 +183,33 @@ def eval_epoch(
             video = misc.iter_to_cuda(video)
 
         with torch.cuda.amp.autocast(enabled=cfg.TRAIN.MIXED_PRECISION):
-            # preds = model(inputs, meta)
             (recon, cross_entropy, mse, attns) = model(video, opd['tau'], cfg.SLOTS.HARD)
 
+            # compute val loss NOTE: is mean needed ?
             mse = mse.mean() # reduce loss to mean ..
             cross_entropy = cross_entropy.mean()
 
-            loss = mse + cross_entropy
-            loss_dict = {'loss': loss}
-
             # use the meter to get averaged loss later ..
-            val_meter.update(loss)
+            mse_meter.update(mse.item())
+            ce_meter.update(cross_entropy.item())
 
-        if writer is not None: # logs ..
-            tqdm_loader.set_postfix(MODE='VAL', EPOCH=cur_epoch, LOSS=f'{loss.item():.5f}', MSE=f'{mse.item():.5f}')
-            # NOTE: create dict as the writer is Tensorboard Writer not SummaryWriter
-            _add = {"VAL/loss": loss.item()}
-            _add.update({'VAL/cross_entropy':cross_entropy.item()})
-            _add.update({'VAL/mse':mse.item()})
+    # write loss at the end of the validation loop .
+    val_loss = mse_meter.avg + ce_meter.avg
 
-            writer.add_scalars(_add, global_step=cur_epoch)
-        
-    # end of interval epoch ..
-    with torch.no_grad():
-        if 50 <= cur_epoch:
-            gen_video = (model.module if cfg.NUM_GPUS>1 else model).reconstruct_autoregressive(video[:8])
-            frames = smisc.visualize(video, recon, gen_video, attns, cfg.SLOTS.NUM_SLOTS, N=8)
-            # writer.add_video(f'TRAIN_recons1/steps={global_step}', frames)
-            writer.add_video(frames,
-                tag=f'VAL_recons/steps={cur_epoch}',
-                global_step=global_step)
+    if writer is not None: # logs ..
+        tqdm_loader.set_postfix(MODE='VAL', EPOCH=cur_epoch+1, 
+                        LOSS=f'{val_loss:.5f}', MSE=f'{mse_meter.avg:.5f}', CE=f'{ce_meter.avg:.5f}')
 
-    return val_meter.avg
+        # NOTE: create dict as the writer is Tensorboard Writer not SummaryWriter
+        _add = {"VAL/loss": val_loss}
+        _add.update({'VAL/cross_entropy':ce_meter.avg})
+        _add.update({'VAL/mse':mse_meter.avg})
+
+        writer.add_scalars(_add, global_step=cur_epoch+1)
+
+    model_out = {'video':video, 'recon':recon, 'attns':attns}
+
+    return val_loss, model_out
 
 def slot_train(cfg):
     """
@@ -244,6 +228,9 @@ def slot_train(cfg):
     # Setup logging format.
     # logging.setup_logging(cfg.OUTPUT_DIR) # sets up the directory based on the run the model name with log file
     logging.setup_logging(cfg.EXP.PATH)
+
+    # print("check the log path >>> ", cfg.EXP.PATH)
+    # exit()
 
     # Init multigrid.
     multigrid = None
@@ -283,9 +270,8 @@ def slot_train(cfg):
     )
 
     # Create meters.
-    train_meter = TrainMeter(len(train_loader), cfg)
+    train_meter = TrainMeter(len(train_loader), cfg) # NOTE: does it refresh every epoch? Check
     # val_meter = ValMeter(len(val_loader), cfg)
-    val_meter = MetricTracker() # NOTE: to track loss and needed for checkpointing
 
     # set up writer for logging to Tensorboard format.
     if cfg.TENSORBOARD.ENABLE and du.is_master_proc(
@@ -302,6 +288,8 @@ def slot_train(cfg):
     best_val_loss = math.inf
 
     epoch_timer = EpochTimer()
+
+    # start training ..
     for cur_epoch in range(start_epoch, cfg.SOLVER.MAX_EPOCH):
         if cfg.MULTIGRID.LONG_CYCLE:
             cfg, changed = multigrid.update_long_cycle(cfg, cur_epoch)
@@ -316,7 +304,7 @@ def slot_train(cfg):
                     val_meter,
                 ) = build_trainer(cfg)
 
-                # Load checkpoint.
+                # Load checkpoint. NOTE: change the output dir to the location where the ckp will be pulled from
                 if cu.has_checkpoint(cfg.OUTPUT_DIR):
                     last_checkpoint = cu.get_last_checkpoint(cfg.OUTPUT_DIR)
                     assert "{:05d}.pyth".format(cur_epoch) in last_checkpoint
@@ -326,19 +314,6 @@ def slot_train(cfg):
                 cu.load_checkpoint(
                     last_checkpoint, model, cfg.NUM_GPUS > 1, optimizer
                 )
-
-        # print("checking the save model function >>>")
-        # # NOTE: test the model checkpoint function ..
-        # cu.save_checkpoint(
-        #         cfg.OUTPUT_DIR,
-        #         model,
-        #         optimizer,
-        #         cur_epoch,
-        #         cfg,
-        #         scaler if cfg.TRAIN.MIXED_PRECISION else None,
-        #     )
-
-        # exit()
 
         # Shuffle the dataset.
         loader.shuffle_dataset(train_loader, cur_epoch)
@@ -377,11 +352,11 @@ def slot_train(cfg):
     
         # print("eval epoch vals >>> ", is_eval_epoch)
         # Evaluate the model on validation set.
-        # if is_eval_epoch: # NOTE: assuming after training val is performed. Not tuned to specific intervals for validation step.
-        val_loss = eval_epoch(
+        # if is_eval_epoch: # NOTE: assuming after training val is performed. 
+        # Not tuned to specific intervals for validation step.
+        val_loss, model_out = eval_epoch(
                     val_loader, 
                     model,
-                    val_meter,
                     cur_epoch, 
                     cfg, 
                     opd, 
@@ -394,21 +369,75 @@ def slot_train(cfg):
         # check if the model weights should be saved based on the val loss
         is_checkp_epoch = False
         print(f"val loss {val_loss} and best_val_loss {best_val_loss} >>>>>>>>>>>")
+
+        # start checkpointing ..
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            best_epoch = cur_epoch + 1
             is_checkp_epoch = True
 
         # Save a checkpoint. # NOTE: remove 1 after checks and change back in the dataloader to use the actual percentage of the dataset
         if is_checkp_epoch: # NOTE: for ckp check "or 1:"
-            print("saving checkpoint ..")
-            cu.save_checkpoint(
-                cfg.OUTPUT_DIR,
-                model,
-                optimizer,
-                cur_epoch,
-                cfg,
-                scaler if cfg.TRAIN.MIXED_PRECISION else None,
-            )
+            print("saving checkpoint. following STEVE  >> ")
+            
+            # set to eval mode ..
+            with torch.no_grad():
+                model.eval()
+
+                # save the best weights ...
+                cu.save_checkpoint(
+                    cfg.EXP.PATH,
+                    model,
+                    optimizer,
+                    cur_epoch+1,
+                    cfg,
+                    name='best_model',
+                    fmt='.pt',
+                    scaler=scaler if cfg.TRAIN.MIXED_PRECISION else None,
+                )            
+
+                # check if the global step < steps 
+                if opd['global_step'] < cfg.SLOTS_OPTIM.STEPS:
+                    cu.save_checkpoint(
+                        cfg.EXP.PATH,
+                        model,
+                        optimizer,
+                        cur_epoch+1,
+                        cfg,
+                        name=f'best_model_until_{cfg.SLOTS_OPTIM.STEPS}_steps',
+                        fmt='.pt',
+                        scaler=scaler if cfg.TRAIN.MIXED_PRECISION else None,
+                    )   
+
+                # visualize if 50 <= epoch:
+                interval_ep = 50 # 50
+                if interval_ep <= cur_epoch:
+                    video = model_out['video']
+                    recon = model_out['recon']
+                    attns = model_out['attns']
+                    gen_video = (model.module if cfg.NUM_GPUS>1 else model).reconstruct_autoregressive(video[:8])
+                    frames = smisc.visualize(video, recon, gen_video, attns, cfg.SLOTS.NUM_SLOTS, N=8)
+                    writer.add_video(frames,
+                        tag=f'VAL_recons/epoch={cur_epoch+1}',
+                        global_step=cur_epoch+1)
+                        # NOTE: previously > global_step=opd['global_step']) 
+                        # does not match with the original STEVE codebase
+
+        # set the best val loss on the logger ..
+        _add = {"VAL/best_loss": best_val_loss}
+        writer.add_scalars(_add, global_step=cur_epoch+1) #+1)
+
+        # final ckp save, NOTE: saves per epoch in STEVE. Why?
+        cu.save_checkpoint(
+            cfg.EXP.PATH,
+            model,
+            optimizer,
+            cur_epoch+1,
+            cfg,
+            name=f'checkpoint',
+            fmt='.pt.tar',
+            scaler=scaler if cfg.TRAIN.MIXED_PRECISION else None,
+        )           
 
         # Compute precise BN stats.
         if (
@@ -423,6 +452,7 @@ def slot_train(cfg):
                 cfg.NUM_GPUS > 0,
             )
         _ = misc.aggregate_sub_bn_stats(model)
+
 
     if writer is not None:
         writer.close()

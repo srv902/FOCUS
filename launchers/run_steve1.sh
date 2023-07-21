@@ -11,4 +11,4 @@
 source $(conda info --base)/bin/activate
 conda activate torch12_cuda102
 
-python tools/run_net.py --cfg configs/movi_e/base_sl.yaml
+python tools/run_net.py --cfg configs/movi_e/base_sl.yaml --exp_name steve_base

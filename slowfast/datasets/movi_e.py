@@ -33,8 +33,8 @@ class Movi_e(torch.utils.data.Dataset):
         img_glob        = cfg.DATA.GLOB_EXP
 
         if mode == 'train':
+            # self.total_dirs = self.total_dirs[:int(len(self.total_dirs) * 0.7)]
             self.total_dirs = self.total_dirs[:int(len(self.total_dirs) * 0.7)]
-            # self.total_dirs = self.total_dirs[:int(len(self.total_dirs) * 0.01)]
         elif mode == 'val':
             self.total_dirs = self.total_dirs[int(len(self.total_dirs) * 0.7):int(len(self.total_dirs) * 0.85)]
         elif mode == 'test':

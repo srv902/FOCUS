@@ -43,12 +43,15 @@ class TensorboardWriter(object):
         self.cm_figsize = cfg.TENSORBOARD.CONFUSION_MATRIX.FIGSIZE
         self.hist_figsize = cfg.TENSORBOARD.HISTOGRAM.FIGSIZE
 
+
+        # replacing the OUTPUT_DIR for log save with reference to exp name
+        # NOTE: cfg.OUTPUT_DIR replaced by cfg.EXP.PATH
         if cfg.TENSORBOARD.LOG_DIR == "":
             log_dir = os.path.join(
-                cfg.OUTPUT_DIR, "runs-{}".format(cfg.TRAIN.DATASET)
+                cfg.EXP.PATH, "runs-{}".format(cfg.TRAIN.DATASET)
             )
         else:
-            log_dir = os.path.join(cfg.OUTPUT_DIR, cfg.TENSORBOARD.LOG_DIR)
+            log_dir = os.path.join(cfg.EXP.PATH, cfg.TENSORBOARD.LOG_DIR)
 
         self.writer = SummaryWriter(log_dir=log_dir)
         logger.info(
