@@ -1,157 +1,157 @@
 STEVE:
-    ENABLE: True
-    O: 4
-    LAYERS: [1,6,10]
-    USE_MOTION_STREAM: True
-    MOTION_STREAM_ATTN_TYPE: joint
-  SSV2:
-    SPLIT: standard
-    BOXES_FORMAT: 'detectron2'
-  SLOTS: # slot specific controls 
-    SIZE: 192 # args.slot_size in STEVE
-    DIM: 192 # like args.d_model in STEVE
-    NUM_SLOTS: 15 # num slots in use!
-    HEADS: 1
-    NUM_ITERS: 3 # 2
-    IMG_CHANNELS: 3
-    USE_SSL_FEAT: False
-    USE_PIXEL_RECON: False
-    IMG_SIZE: 64 #[256, 448]
-    SSL_TYPE: 'dino'
-    TEACHER: 'r50'
-    ARCH: 'steve' # steve or dinosaur
-    CNN_HID_SIZE: 64
-    MLP_HID_SIZE: 192
-    HARD: True # move somewhere?
-    NUM_PREDICTOR_HEADS: 4
-    NUM_PREDICTOR_BLOCKS: 1
-    PREDICTOR_DROPOUT: 0.0
-    VOCAB_SIZE: 4096
-    DECODER:
-      TYPE: 'mlp' # 'vit'
-      NUM_BLOCKS: 4 # 8 for 128 im size
-      NUM_HEADS: 4
-      DIM: 192
-      DROPOUT: 0.1
-    OUT_H: 8
-    OUT_W: 14  
-  TRAIN:
-    ENABLE: True # True
-    METHOD: 'slots' # ar the default method
-    DATASET:  movi_e # Cholec80
-    BATCH_SIZE: 16 # 48
-    NUM_WORKERS: 2 #NOTE: repeated below . remove this
-    EVAL_PERIOD: 5
-    CHECKPOINT_PERIOD: 1
-    AUTO_RESUME: False
-    MIXED_PRECISION: False
-    CHECKPOINT_EPOCH_RESET: True
-    CHECKPOINT_FILE_PATH: # CP/k400_motionformer_224_16x4.pyth
-    LOG_PATH: 'logs/'
-    LOG_INTERVAL: 2000
-    CHECKPOINT_PATH: 'checkpoints'
-  DATA:
-    REVERSE_INPUT_CHANNEL: True
-    USE_OFFSET_SAMPLING: True
-    DECODING_BACKEND: torchvision
-    NUM_FRAMES: 4
-    SAMPLING_RATE: 1
-    TRAIN_JITTER_SCALES: [256, 320]
-    TRAIN_CROP_SIZE: 64 # 224
-    TEST_CROP_SIZE: 64  # 224
-    INPUT_CHANNEL_NUM: [3]
-    MEAN: [0.5, 0.5, 0.5]
-    STD: [0.5, 0.5, 0.5]
-    PATH_TO_DATA_DIR: "/home/saurav/datasets/movi_e/frames/*"
-    PATH: "/home/saurav/datasets/movi_e"
-    PATH_PREFIX: "/home/saurav/datasets/movi_e"
-    TRAIN_JITTER_SCALES_RELATIVE: [0.08, 1.0]
-    TRAIN_JITTER_ASPECT_RELATIVE: [0.75, 1.3333]
-    INV_UNIFORM_SAMPLE: True
-    RANDOM_FLIP: False
-    SCALE: [448, 256, 448, 256]
-    FEAT_H: 8
-    FEAT_W: 14
-    SPLIT: ctp
-    FOLD: 1
-    GLOB_EXP: '????????_image.png'
-    NUM_SEGS: 25
-  AUG:
-    NUM_SAMPLE: 1
-    ENABLE: True
-    DIFFERENT_AUG_PER_FRAME: True
-    COLOR_JITTER: 0.0
-    AA_TYPE: rand-m7-n4-mstd0.5-inc1
-    INTERPOLATION: bicubic
-    RE_PROB: 0.0
-    RE_MODE: pixel
-    RE_COUNT: 1
-    RE_SPLIT: False
-  SOLVER:
-    BASE_LR: 5e-5
-    LR_POLICY: steps_with_relative_lrs
-    LRS: [1, 0.1, 0.01]
-    STEPS: [0, 20, 30]
-    MAX_EPOCH: 100 # num epochs used !
-    MOMENTUM: 0.9
-    WEIGHT_DECAY: 5e-2
-    WARMUP_EPOCHS: 0.0
-    OPTIMIZING_METHOD: adam
-    CLIP_GRAD_L2NORM: 0.05
-  SLOWFAST:
-    ALPHA: 8
-  MF:
-    PATCH_SIZE: 16
-    PATCH_SIZE_TEMP: 2
-    CHANNELS: 3
-    EMBED_DIM: 768
-    DEPTH: 12
-    NUM_HEADS: 12
-    MLP_RATIO: 4
-    QKV_BIAS: True
-    VIDEO_INPUT: True
-    TEMPORAL_RESOLUTION: 8
-    USE_MLP: True
-    DROP: 0.0
-    POS_DROPOUT: 0.0
-    DROP_PATH: 0.2
-    IM_PRETRAINED: True
-    HEAD_DROPOUT: 0.0
-    HEAD_ACT: tanh
-    PRETRAINED_WEIGHTS: vit_1k
-    ATTN_LAYER: trajectory
-  SLOTS_OPTIM:
-    DVAE: !!float 3e-4
-    ENC: !!float 1e-4
-    DEC: !!float 3e-4
-    HALF_LIFE: 100000
-    WARMUP_STEPS: 20000
-    CLIP: 1.0
-    TAU_START: 1.0
-    TAU_FINAL: 0.1
-    TAU_STEPS: 30000
-    STEPS: 200000
-    STEP_INTERVAL: 5000
-  MODEL:
-    NUM_CLASSES: 174
-    ARCH: slow
-    MODEL_NAME: STEVE #Motionformer
-    CNN_NAME: res18 # base # resnet18block
-    LOSS_FUNC: label_smoothing_cross_entropy
-  TEST:
-    ENABLE: False
-    EVAL_TASK: 'segmentation'
-    DATASET: movi_e_with_masks # Ssv2
-    BATCH_SIZE: 2
-    NUM_ENSEMBLE_VIEWS: 1
-    NUM_SPATIAL_CROPS: 1 # 3
-    TEST_EPOCH_NUM: 1
-  DATA_LOADER:
-    NUM_WORKERS: 6
-    PIN_MEMORY: True
-  NUM_GPUS: 1
-  NUM_SHARDS: 1
-  RNG_SEED: 0
-  OUTPUT_DIR: output
-  TENSORBOARD:
-    ENABLE: True
+  ENABLE: True
+  O: 4
+  LAYERS: [1,6,10]
+  USE_MOTION_STREAM: True
+  MOTION_STREAM_ATTN_TYPE: joint
+SSV2:
+  SPLIT: standard
+  BOXES_FORMAT: 'detectron2'
+SLOTS: # slot specific controls 
+  SIZE: 192 # args.slot_size in STEVE
+  DIM: 192 # like args.d_model in STEVE
+  NUM_SLOTS: 15 # num slots in use!
+  HEADS: 1
+  NUM_ITERS: 3 # 2
+  IMG_CHANNELS: 3
+  USE_SSL_FEAT: False
+  USE_PIXEL_RECON: False
+  IMG_SIZE: 64 #[256, 448]
+  SSL_TYPE: 'dino'
+  TEACHER: 'r50'
+  ARCH: 'steve' # steve or dinosaur
+  CNN_HID_SIZE: 64
+  MLP_HID_SIZE: 192
+  HARD: True # move somewhere?
+  NUM_PREDICTOR_HEADS: 4
+  NUM_PREDICTOR_BLOCKS: 1
+  PREDICTOR_DROPOUT: 0.0
+  VOCAB_SIZE: 4096
+  DECODER:
+    TYPE: 'mlp' # 'vit'
+    NUM_BLOCKS: 4 # 8 for 128 im size
+    NUM_HEADS: 4
+    DIM: 192
+    DROPOUT: 0.1
+  OUT_H: 8
+  OUT_W: 14  
+TRAIN:
+  ENABLE: True # True
+  METHOD: 'slots' # ar the default method
+  DATASET:  movi_e # Cholec80
+  BATCH_SIZE: 16 # 48
+  NUM_WORKERS: 2 #NOTE: repeated below . remove this
+  EVAL_PERIOD: 5
+  CHECKPOINT_PERIOD: 1
+  AUTO_RESUME: False
+  MIXED_PRECISION: False
+  CHECKPOINT_EPOCH_RESET: True
+  CHECKPOINT_FILE_PATH: # CP/k400_motionformer_224_16x4.pyth
+  LOG_PATH: 'logs/'
+  LOG_INTERVAL: 2000
+  CHECKPOINT_PATH: 'checkpoints'
+DATA:
+  REVERSE_INPUT_CHANNEL: True
+  USE_OFFSET_SAMPLING: True
+  DECODING_BACKEND: torchvision
+  NUM_FRAMES: 4
+  SAMPLING_RATE: 1
+  TRAIN_JITTER_SCALES: [256, 320]
+  TRAIN_CROP_SIZE: 64 # 224
+  TEST_CROP_SIZE: 64  # 224
+  INPUT_CHANNEL_NUM: [3]
+  MEAN: [0.5, 0.5, 0.5]
+  STD: [0.5, 0.5, 0.5]
+  PATH_TO_DATA_DIR: "/home/saurav/datasets/movi_e/frames/*"
+  PATH: "/home/saurav/datasets/movi_e"
+  PATH_PREFIX: "/home/saurav/datasets/movi_e"
+  TRAIN_JITTER_SCALES_RELATIVE: [0.08, 1.0]
+  TRAIN_JITTER_ASPECT_RELATIVE: [0.75, 1.3333]
+  INV_UNIFORM_SAMPLE: True
+  RANDOM_FLIP: False
+  SCALE: [448, 256, 448, 256]
+  FEAT_H: 8
+  FEAT_W: 14
+  SPLIT: ctp
+  FOLD: 1
+  GLOB_EXP: '????????_image.png'
+  NUM_SEGS: 25
+AUG:
+  NUM_SAMPLE: 1
+  ENABLE: True
+  DIFFERENT_AUG_PER_FRAME: True
+  COLOR_JITTER: 0.0
+  AA_TYPE: rand-m7-n4-mstd0.5-inc1
+  INTERPOLATION: bicubic
+  RE_PROB: 0.0
+  RE_MODE: pixel
+  RE_COUNT: 1
+  RE_SPLIT: False
+SOLVER:
+  BASE_LR: 5e-5
+  LR_POLICY: steps_with_relative_lrs
+  LRS: [1, 0.1, 0.01]
+  STEPS: [0, 20, 30]
+  MAX_EPOCH: 100 # num epochs used !
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 5e-2
+  WARMUP_EPOCHS: 0.0
+  OPTIMIZING_METHOD: adam
+  CLIP_GRAD_L2NORM: 0.05
+SLOWFAST:
+  ALPHA: 8
+MF:
+  PATCH_SIZE: 16
+  PATCH_SIZE_TEMP: 2
+  CHANNELS: 3
+  EMBED_DIM: 768
+  DEPTH: 12
+  NUM_HEADS: 12
+  MLP_RATIO: 4
+  QKV_BIAS: True
+  VIDEO_INPUT: True
+  TEMPORAL_RESOLUTION: 8
+  USE_MLP: True
+  DROP: 0.0
+  POS_DROPOUT: 0.0
+  DROP_PATH: 0.2
+  IM_PRETRAINED: True
+  HEAD_DROPOUT: 0.0
+  HEAD_ACT: tanh
+  PRETRAINED_WEIGHTS: vit_1k
+  ATTN_LAYER: trajectory
+SLOTS_OPTIM:
+  DVAE: !!float 3e-4
+  ENC: !!float 1e-4
+  DEC: !!float 3e-4
+  HALF_LIFE: 100000
+  WARMUP_STEPS: 20000
+  CLIP: 1.0
+  TAU_START: 1.0
+  TAU_FINAL: 0.1
+  TAU_STEPS: 30000
+  STEPS: 200000
+  STEP_INTERVAL: 5000
+MODEL:
+  NUM_CLASSES: 174
+  ARCH: slow
+  MODEL_NAME: STEVE #Motionformer
+  CNN_NAME: res18 # base # resnet18block
+  LOSS_FUNC: label_smoothing_cross_entropy
+TEST:
+  ENABLE: False
+  EVAL_TASK: 'segmentation'
+  DATASET: movi_e_with_masks # Ssv2
+  BATCH_SIZE: 2
+  NUM_ENSEMBLE_VIEWS: 1
+  NUM_SPATIAL_CROPS: 1 # 3
+  TEST_EPOCH_NUM: 1
+DATA_LOADER:
+  NUM_WORKERS: 6
+  PIN_MEMORY: True
+NUM_GPUS: 1
+NUM_SHARDS: 1
+RNG_SEED: 0
+OUTPUT_DIR: output
+TENSORBOARD:
+  ENABLE: True
